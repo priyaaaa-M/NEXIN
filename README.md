@@ -1,12 +1,76 @@
-# React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-Currently, two official plugins are available:
+Welcome to the **NEXIN**, a self-development tool that helps you stay focused, consistent, and motivated toward your dreams.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+This project isn't just about productivity. It's about creating a life system that balances ambition, wellness, and purpose.
 
-## Expanding the ESLint configuration
+## 🚀 Features
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- 🎯 **Set Short-Term and Long-Term Goals**  
+  Break big dreams into actionable tasks.
+
+- ⏳ **Track Daily/Weekly Progress**  
+  Check off tasks and monitor your consistency.
+
+- 📅 **Filter Goals by Date**  
+  Use the calendar to view goals by month/year.
+
+- 🧠 **Dopamine Boosters**  
+  Get rewarded with quotes, sounds, or visual effects after completing a task!
+
+- 🔍 **Search Goals**  
+  Quickly filter your goals by tags, type, or name.
+
+---
+
+## 🛠️ Tech Stack
+
+- **Frontend**: React + Tailwind CSS  
+- **Icons**: Lucide-react  
+- **State Management**: React Hooks  
+- *(Optional: Coming soon - Backend with Firebase or Supabase)*
+
+---
+
+## 📦 Getting Started
+
+### 1. Clone the Repository
+
+Contribute:
+✨ Design a better reward system (dopamine triggers)
+
+🎨 Improve the UI/UX
+
+🧠 Add a suggestion 
+
+🔧 Add a backend with user authentication
+
+Steps:
+Fork the project
+
+Create your branch: git checkout -b feature-name
+
+Commit your changes: git commit -m "Add feature"
+
+Push to your branch: git push origin feature-name
+
+Open a Pull Request 🚀
+
+📧 Contact
+Have an idea, feature suggestion, or just want to say hi?
+
+📮 Email: pro.priyanka.mandal@gmail.com
+
+
+
+```bash
+git https://github.com/priyaaaa-M/NEXIN.git
+cd NEXIN
+
+```Clone
+npm install
+npm run dev
+
+
+
+
