@@ -21,7 +21,7 @@ NEXIN is an integrated self-development dashboard designed to optimize productiv
 - Achievement rewards system
 - Manifestation tracking 
 
-### Technical Implementation
+
 
 #### Frontend
 - React with Tailwind CSS
@@ -95,5 +95,5 @@ We welcome contributions in these areas:
 3. Submit PR with clear documentation
 
 ## Contact
-For collaboration or feedback:
+
 pro.priyanka.mandal@gmail.com
