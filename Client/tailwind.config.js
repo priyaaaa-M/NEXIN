@@ -1,5 +1,5 @@
 /** @type {import('tailwindcss').Config} */
-export default {
+module.exports = {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
@@ -66,6 +66,7 @@ export default {
         'float': 'float 6s ease-in-out infinite',
         'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
         'glow': 'glow 2s ease-in-out infinite alternate',
+        'scrollUp': 'scrollUp 20s linear infinite',
       },
       keyframes: {
         float: {
@@ -76,6 +77,10 @@ export default {
           '0%': { boxShadow: '0 0 5px rgba(176, 38, 255, 0.5)' },
           '100%': { boxShadow: '0 0 20px rgba(176, 38, 255, 0.8)' },
         },
+        scrollUp: {
+          '0%': { transform: 'translateY(0%)' },
+          '100%': { transform: 'translateY(-50%)' },
+        }
       },
     },
   },

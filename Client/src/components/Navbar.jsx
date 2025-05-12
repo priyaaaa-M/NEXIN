@@ -20,10 +20,18 @@ const Navbar = ({ onLogin, isLoggedIn }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const navItems = [
+    { name: 'Home', path: '/' },
+    { name: 'Blog', path: '/blog' },
+    { name: 'Focus', path: '/focus' },
+    { name: 'Dashboard', path: '/dashboard' },
+    { name: 'Contact', path: '/contact' }
+  ];
+
   return (
     <nav
       className={`fixed w-full z-50 transition-all duration-300 ${scrolled
-        ? 'bg-midnight-500/95 backdrop-blur-md shadow-lg py-2'
+        ? 'bg-midnight-700/95 backdrop-blur-md shadow-lg py-2 border-b border-midnight-500'
         : 'bg-transparent py-4'
         }`}
     >
@@ -40,13 +48,13 @@ const Navbar = ({ onLogin, isLoggedIn }) => {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center justify-center flex-1">
             <ul className="flex space-x-8">
-              {['Home', 'Features', 'Projects', 'Dashboard', 'Contact'].map((item) => (
-                <li key={item}>
+              {navItems.map((item) => (
+                <li key={item.name}>
                   <Link
-                    to={item === 'Home' ? '/' : `/${item.toLowerCase()}`}
+                    to={item.path}
                     className="text-gray-300 hover:text-white hover:text-electric-400 transition-colors relative group"
                   >
-                    {item}
+                    {item.name}
                     <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-electric-400 transition-all duration-300 group-hover:w-full"></span>
                   </Link>
                 </li>
@@ -67,7 +75,7 @@ const Navbar = ({ onLogin, isLoggedIn }) => {
               <>
                 <button
                   onClick={onLogin}
-                  className="px-4 py-2 rounded-full text-white hover:text-electric-400 transition-colors"
+                  className="px-4 py-2 rounded-full text-gray-300 hover:text-electric-400 transition-colors"
                 >
                   Sign In
                 </button>
@@ -86,7 +94,7 @@ const Navbar = ({ onLogin, isLoggedIn }) => {
           <div className="md:hidden">
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="text-gray-300 hover:text-white focus:outline-none"
+              className="text-gray-300 hover:text-electric-400 focus:outline-none transition-colors"
             >
               <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 {mobileMenuOpen ? (
@@ -102,16 +110,16 @@ const Navbar = ({ onLogin, isLoggedIn }) => {
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-midnight-600/95 backdrop-blur-md mt-2 py-4 px-4">
+        <div className="md:hidden bg-midnight-700/95 backdrop-blur-md mt-2 py-4 px-4 border-t border-midnight-500">
           <ul className="flex flex-col space-y-4">
-            {['Home', 'Features', 'Projects', 'Dashboard', 'Contact'].map((item) => (
-              <li key={item}>
+            {navItems.map((item) => (
+              <li key={item.name}>
                 <Link
-                  to={item === 'Home' ? '/' : `/${item.toLowerCase()}`}
-                  className="text-gray-300 hover:text-white block"
+                  to={item.path}
+                  className="text-gray-300 hover:text-electric-400 block transition-colors"
                   onClick={() => setMobileMenuOpen(false)}
                 >
-                  {item}
+                  {item.name}
                 </Link>
               </li>
             ))}
@@ -120,7 +128,7 @@ const Navbar = ({ onLogin, isLoggedIn }) => {
             {isLoggedIn ? (
               <Link
                 to="/dashboard"
-                className="px-4 py-2 rounded-full border border-electric-400 text-electric-400 text-center"
+                className="px-4 py-2 rounded-full border border-electric-400 text-electric-400 text-center hover:bg-electric-400/10 transition-colors"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Dashboard
@@ -132,7 +140,7 @@ const Navbar = ({ onLogin, isLoggedIn }) => {
                     onLogin();
                     setMobileMenuOpen(false);
                   }}
-                  className="px-4 py-2 rounded-full text-white hover:text-electric-400 text-center"
+                  className="px-4 py-2 rounded-full text-gray-300 hover:text-electric-400 text-center transition-colors"
                 >
                   Sign In
                 </button>
@@ -141,7 +149,7 @@ const Navbar = ({ onLogin, isLoggedIn }) => {
                     onLogin();
                     setMobileMenuOpen(false);
                   }}
-                  className="px-4 py-2 rounded-full bg-gradient-to-r from-electric-500 to-electric-400 text-white text-center"
+                  className="px-4 py-2 rounded-full bg-gradient-to-r from-electric-500 to-electric-400 text-white text-center transition-all shadow-glow-purple"
                 >
                   Sign Up
                 </button>

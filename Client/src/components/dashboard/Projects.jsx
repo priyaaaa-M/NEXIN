@@ -241,7 +241,7 @@ const Projects = () => {
   };
 
   return (
-    <div className="text-gray-100 bg-gray-900 min-h-screen p-6">
+    <div className={`text-gray-100 bg-midnight-500 min-h-screen p-6`}>
       {/* Header */}
       <header className="mb-8 flex flex-col md:flex-row justify-between gap-4">
         <div>
@@ -252,9 +252,9 @@ const Projects = () => {
           <div className="relative flex items-center">
             <button
               onClick={() => setShowCalendar(!showCalendar)}
-              className="flex items-center gap-2 px-3 py-2 bg-gray-800 hover:bg-gray-700 rounded-lg mr-2"
+              className={`flex items-center gap-2 px-3 py-2 bg-midnight-400 hover:bg-midnight-300 rounded-lg mr-2 border border-midnight-300`}
             >
-              <Calendar size={18} />
+              <Calendar size={18} className="text-skyblue-400" />
               {dateFilter ?
                 `${dateFilter.toLocaleString('default', { month: 'short' })} ${dateFilter.getFullYear()}` :
                 'Filter by date'}
@@ -262,14 +262,14 @@ const Projects = () => {
             {dateFilter && (
               <button
                 onClick={clearDateFilter}
-                className="text-gray-400 hover:text-white p-1"
+                className={`flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-electric-500 to-electric-400 hover:from-electric-400 hover:to-electric-300 text-white rounded-lg transition-all shadow-glow-purple`}
               >
                 <X size={16} />
               </button>
             )}
             {showCalendar && (
-              <div className="absolute top-12 left-0 z-10 bg-gray-800 rounded-lg shadow-lg p-2">
-                <div className="flex justify-between items-center mb-2 px-2">
+              <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4">
+                <div className={`bg-midnight-400 rounded-xl p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-midnight-300`}>
                   <button className="p-1 hover:bg-gray-700 rounded">
                     <ChevronLeft size={16} />
                   </button>

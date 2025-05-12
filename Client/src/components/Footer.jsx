@@ -15,7 +15,7 @@ const Footer = () => {
             Don't just study. Build. Create. Achieve.
           </h2>
           <p className="text-gray-300 mb-8">
-            Join thousands of engineering students who have transformed their academic journey with Priyaa Forge.
+            Join thousands of engineering students who have transformed their academic journey with NEXIN.
           </p>
           <button className="px-8 py-3 rounded-full bg-gradient-to-r from-electric-500 to-skyblue-500 hover:from-electric-400 hover:to-skyblue-400 text-white transition-all shadow-glow-purple font-medium text-lg">
             Get Started Today
@@ -84,7 +84,7 @@ const Footer = () => {
             <ul className="space-y-2">
               <li className="flex items-center gap-2 text-gray-400">
                 <Mail className="h-4 w-4 text-electric-400" />
-                <span>support@priyaaforge.com</span>
+                <span>support@nexin.com</span>
               </li>
               <li className="text-gray-400">
                 <p>Engineering Building,</p>
@@ -97,7 +97,7 @@ const Footer = () => {
 
         {/* Bottom Copyright */}
         <div className="mt-12 pt-6 border-t border-gray-800 text-center text-gray-500 text-sm">
-          <p>© {new Date().getFullYear()} Priyaa Forge. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} NEXIN. All rights reserved.</p>
         </div>
       </div>
     </footer>

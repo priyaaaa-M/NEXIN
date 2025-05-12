@@ -22,7 +22,7 @@ const Goals = () => {
   const [searchResults, setSearchResults] = useState([]);
   const audioRef = useRef(null);
 
-  // Available songs - adjust paths according to your actual file structure
+  // Available songs
   const availableSongs = [
     { name: 'Taylor Swift', path: '/sounds/Taylor.mp3' },
     { name: 'Indian Bollywood', path: '/sounds/indian-bollywood-hindi-song-background-music-294105.mp3' },
@@ -74,7 +74,7 @@ const Goals = () => {
   const [editingTodo, setEditingTodo] = useState(null);
   const [todoEditText, setTodoEditText] = useState('');
 
-  // Reward messages based on completion percentage
+  // Reward messages
   const partialRewardMessages = [
     "🌱 Great start! Keep going!",
     "💪 You're making progress!",
@@ -145,16 +145,13 @@ const Goals = () => {
     const completedCount = todaysTodos.filter(todo => todo.completed).length;
     const completionPercentage = (completedCount / todaysTodos.length) * 100;
 
-    // Show different rewards based on completion percentage
     if (completionPercentage === 100) {
-      // Full completion reward
       const randomMessage = fullRewardMessages[Math.floor(Math.random() * fullRewardMessages.length)];
       setRewardMessage(randomMessage);
       setShowReward(true);
       setShowConfetti(true);
       setPageGlow(true);
 
-      // Hide effects after delay
       setTimeout(() => {
         setShowConfetti(false);
         setPageGlow(false);
@@ -164,7 +161,6 @@ const Goals = () => {
         setShowReward(false);
       }, 5000);
     } else if (completionPercentage >= 50 && !showReward) {
-      // Partial completion reward
       const randomMessage = partialRewardMessages[Math.floor(Math.random() * partialRewardMessages.length)];
       setRewardMessage(randomMessage);
       setShowReward(true);
@@ -175,17 +171,15 @@ const Goals = () => {
     }
   };
 
-  // Modified toggleTodo to include reward check
+  // Toggle todo completion
   const toggleTodo = (id) => {
     setTodos(todos.map(todo =>
       todo.id === id ? { ...todo, completed: !todo.completed } : todo
     ));
-
-    // Check for task completion after toggling
     setTimeout(checkTaskCompletion, 100);
   };
 
-  // Notes state with content field
+  // Notes state
   const [notes, setNotes] = useState({});
   const [showCalendar, setShowCalendar] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
@@ -262,11 +256,9 @@ const Goals = () => {
       setSearchResults([]);
       return;
     }
-
     const results = availableSongs.filter(song =>
       song.name.toLowerCase().includes(query.toLowerCase())
     );
-
     setSearchResults(results);
   };
 
@@ -276,14 +268,12 @@ const Goals = () => {
       audioRef.current = new Audio();
     }
 
-    // If same song is already playing, pause it
     if (currentSong?.path === song.path && isPlaying) {
       audioRef.current.pause();
       setIsPlaying(false);
       return;
     }
 
-    // If different song, load and play new one
     try {
       audioRef.current.src = song.path;
       audioRef.current.volume = volume / 100;
@@ -457,59 +447,59 @@ const Goals = () => {
   };
 
   return (
-    <div className={`min-h-screen bg-gradient-to-b from-midnight-400 to-midnight-500 p-6 transition-all duration-300 ${pageGlow ? 'brightness-125' : ''}`}>
+    <div className={`min-h-screen bg-gradient-to-b from-midnight-500 to-midnight-700 p-6 transition-all duration-300 ${pageGlow ? 'brightness-125' : ''}`}>
       {/* Confetti Animation */}
       <AnimatePresence>
         {showConfetti && <Confetti />}
       </AnimatePresence>
 
       {/* Greeting Section */}
-      <div className="bg-midnight-200 rounded-xl p-6 shadow-md mb-6">
+      <div className="bg-gradient-to-r from-electric-500 to-electric-700 rounded-xl p-6 shadow-md mb-6">
         <h1 className="text-3xl font-bold text-white">
           {userName} - {greeting}
         </h1>
-        <p className="text-gray-600">
+        <p className="text-electric-100">
           {currentTime.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
         </p>
       </div>
 
       {/* Timer Section */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-        <div className="bg-white rounded-xl p-6 shadow-md">
+        <div className="bg-gradient-to-br from-skyblue-500 to-skyblue-700 rounded-xl p-6 shadow-md">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-semibold text-indigo-800 flex items-center gap-2">
-              <Clock className="text-indigo-600" /> Study Timer
+            <h2 className="text-xl font-semibold text-white flex items-center gap-2">
+              <Clock className="text-skyblue-200" /> Study Timer
             </h2>
             <div className="flex items-center gap-2">
               <button
                 onClick={toggleTimer}
-                className="p-2 bg-indigo-600 text-white rounded-full hover:bg-indigo-700 transition-colors"
+                className="p-2 bg-white text-skyblue-600 rounded-full hover:bg-skyblue-100 transition-colors"
               >
                 {isRunning ? <Pause size={20} /> : <Play size={20} />}
               </button>
               <button
                 onClick={resetTimer}
-                className="p-2 bg-gray-200 text-gray-700 rounded-full hover:bg-gray-300 transition-colors"
+                className="p-2 bg-skyblue-800 text-white rounded-full hover:bg-skyblue-700 transition-colors"
               >
                 <SkipForward size={20} />
               </button>
             </div>
           </div>
           <div className="text-center mb-6">
-            <span className="text-5xl font-bold text-indigo-800">
+            <span className="text-5xl font-bold text-white">
               {formatTime(timer)}
             </span>
           </div>
           <div className="grid grid-cols-2 gap-4">
-            <div className="bg-indigo-50 rounded-lg p-4">
-              <h3 className="text-sm text-indigo-600 mb-1">Today</h3>
-              <p className="text-xl font-semibold text-indigo-800">
+            <div className="bg-skyblue-400/30 rounded-lg p-4 backdrop-blur-sm">
+              <h3 className="text-sm text-skyblue-100 mb-1">Today</h3>
+              <p className="text-xl font-semibold text-white">
                 {Math.floor(todayStudyTime / 60)}h {todayStudyTime % 60}m
               </p>
             </div>
-            <div className="bg-indigo-50 rounded-lg p-4">
-              <h3 className="text-sm text-indigo-600 mb-1">Year Total</h3>
-              <p className="text-xl font-semibold text-indigo-800">
+            <div className="bg-skyblue-400/30 rounded-lg p-4 backdrop-blur-sm">
+              <h3 className="text-sm text-skyblue-100 mb-1">Year Total</h3>
+              <p className="text-xl font-semibold text-white">
                 {Math.floor(yearlyStudyTime / 60)}h {yearlyStudyTime % 60}m
               </p>
             </div>
@@ -517,9 +507,9 @@ const Goals = () => {
         </div>
 
         {/* Music Player Section */}
-        <div className="bg-white rounded-xl p-6 shadow-md">
-          <h2 className="text-xl font-semibold text-indigo-800 flex items-center gap-2 mb-4">
-            <Music className="text-indigo-600" /> Study Music
+        <div className="bg-gradient-to-br from-electric-500 to-electric-700 rounded-xl p-6 shadow-md">
+          <h2 className="text-xl font-semibold text-white flex items-center gap-2 mb-4">
+            <Music className="text-electric-200" /> Study Music
           </h2>
           <div className="relative mb-4">
             <input
@@ -527,22 +517,24 @@ const Goals = () => {
               placeholder="Search music..."
               value={musicSearch}
               onChange={(e) => setMusicSearch(e.target.value)}
-              className="w-full p-3 pl-10 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full p-3 pl-10 rounded-lg bg-electric-600/50 border border-electric-400 text-white placeholder-electric-200 focus:outline-none focus:ring-2 focus:ring-electric-300"
             />
-            <Search className="absolute left-3 top-3.5 text-gray-400" size={18} />
+            <Search className="absolute left-3 top-3.5 text-electric-200" size={18} />
           </div>
-          <div className="space-y-2 mb-4 max-h-40 overflow-y-auto">
+          <div className="space-y-2 mb-4 max-h-40 overflow-y-auto custom-scrollbar">
             {searchResults.map(track => (
               <div
                 key={track.name}
                 onClick={() => playSong(track)}
-                className={`p-3 rounded-lg cursor-pointer flex justify-between items-center ${currentSong?.path === track.path ? 'bg-indigo-100' : 'hover:bg-gray-100'
+                className={`p-3 rounded-lg cursor-pointer flex justify-between items-center transition-colors ${currentSong?.path === track.path
+                  ? 'bg-electric-400 text-white'
+                  : 'bg-electric-600/30 text-electric-100 hover:bg-electric-500/50'
                   }`}
               >
                 <div>
                   <p className="font-medium">{track.name}</p>
                 </div>
-                <span className="text-sm text-gray-500">▶</span>
+                <span className="text-sm">▶</span>
               </div>
             ))}
           </div>
@@ -550,24 +542,24 @@ const Goals = () => {
             <div className="mt-4">
               <div className="flex items-center justify-between mb-2">
                 <div>
-                  <p className="font-medium">{currentSong.name}</p>
+                  <p className="font-medium text-white">{currentSong.name}</p>
                 </div>
                 <button
                   onClick={togglePlayPause}
-                  className="p-2 bg-indigo-600 text-white rounded-full hover:bg-indigo-700 transition-colors"
+                  className="p-2 bg-white text-electric-600 rounded-full hover:bg-electric-100 transition-colors"
                 >
                   {isPlaying ? <Pause size={20} /> : <Play size={20} />}
                 </button>
               </div>
               <div className="flex items-center gap-2">
-                <Volume2 size={18} className="text-gray-500" />
+                <Volume2 size={18} className="text-electric-200" />
                 <input
                   type="range"
                   min="0"
                   max="100"
                   value={volume}
                   onChange={(e) => handleVolumeChange(parseInt(e.target.value))}
-                  className="w-full"
+                  className="w-full accent-electric-300"
                 />
               </div>
             </div>
@@ -576,9 +568,7 @@ const Goals = () => {
       </div>
 
       {/* Quotes Section */}
-      <div className="bg-white rounded-xl p-6 shadow-lg h-[90px] flex flex-col items-center justify-center relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 opacity-50"></div>
-
+      <div className="bg-gradient-to-br from-sunny-400 to-sunny-600 rounded-xl p-6 shadow-lg h-[90px] flex flex-col items-center justify-center relative overflow-hidden mb-6">
         <motion.div
           key={currentQuote}
           initial={{ opacity: 0, y: 20 }}
@@ -587,7 +577,7 @@ const Goals = () => {
           transition={{ duration: 0.5 }}
           className="text-center px-8 relative z-10"
         >
-          <p className="text-2xl font-dancing-script leading-relaxed bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+          <p className="text-xl font-dancing-script leading-relaxed text-sunny-900">
             "{currentQuote}"
           </p>
         </motion.div>
@@ -597,7 +587,7 @@ const Goals = () => {
             const randomIndex = Math.floor(Math.random() * quotes.length);
             setCurrentQuote(quotes[randomIndex]);
           }}
-          className="absolute bottom-6 right-6 p-2 text-gray-400 hover:text-indigo-600 transition-colors"
+          className="absolute bottom-4 right-4 p-2 text-sunny-800 hover:text-sunny-900 transition-colors"
         >
           <RefreshCw size={20} />
         </button>
@@ -620,10 +610,10 @@ const Goals = () => {
       {/* To-Do and Notes Section */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
         {/* To-Do List */}
-        <div className="bg-white rounded-xl p-6 shadow-lg h-[450px] flex flex-col">
+        <div className="bg-midnight-400 rounded-xl p-6 shadow-lg h-[450px] flex flex-col">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-semibold text-indigo-800 flex items-center gap-2">
-              <List className="text-indigo-600" /> To-Do List
+            <h2 className="text-xl font-semibold text-white flex items-center gap-2">
+              <List className="text-skyblue-300" /> To-Do List
             </h2>
           </div>
           <div className="flex gap-2 mb-4">
@@ -632,12 +622,12 @@ const Goals = () => {
               placeholder="Add a task..."
               value={newTodo}
               onChange={(e) => setNewTodo(e.target.value)}
-              className="flex-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="flex-1 p-2 border border-midnight-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-electric-500 bg-midnight-500 text-white placeholder-midnight-200"
               onKeyPress={(e) => e.key === 'Enter' && addTodo()}
             />
             <button
               onClick={addTodo}
-              className="p-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700"
+              className="p-2 bg-electric-600 text-white rounded-lg hover:bg-electric-700 transition-colors"
             >
               <Plus size={20} />
             </button>
@@ -646,7 +636,9 @@ const Goals = () => {
             {todos.map(todo => (
               <div
                 key={todo.id}
-                className={`p-3 rounded-lg border ${todo.completed ? 'bg-indigo-50 border-indigo-200' : 'bg-white border-gray-200'
+                className={`p-3 rounded-lg border ${todo.completed
+                  ? 'bg-electric-500/20 border-electric-400'
+                  : 'bg-midnight-500 border-midnight-300'
                   }`}
               >
                 <div className="flex items-center justify-between">
@@ -654,8 +646,8 @@ const Goals = () => {
                     <button
                       onClick={() => toggleTodo(todo.id)}
                       className={`w-6 h-6 rounded-full border-2 flex-shrink-0 flex items-center justify-center ${todo.completed
-                        ? 'bg-indigo-600 border-indigo-600 text-white'
-                        : 'border-gray-300'
+                        ? 'bg-electric-500 border-electric-500 text-white'
+                        : 'border-midnight-200'
                         }`}
                     >
                       {todo.completed && <Check size={14} />}
@@ -667,11 +659,14 @@ const Goals = () => {
                         onChange={(e) => setTodoEditText(e.target.value)}
                         onBlur={() => saveEdit(todo.id)}
                         onKeyPress={(e) => e.key === 'Enter' && saveEdit(todo.id)}
-                        className="flex-1 p-1 border rounded focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        className="flex-1 p-1 border rounded focus:outline-none focus:ring-2 focus:ring-electric-500 bg-midnight-600 text-white"
                         autoFocus
                       />
                     ) : (
-                      <p className={`flex-1 truncate ${todo.completed ? 'text-gray-500 line-through' : 'text-gray-700'}`}>
+                      <p className={`flex-1 truncate ${todo.completed
+                        ? 'text-midnight-200 line-through'
+                        : 'text-white'
+                        }`}>
                         {todo.text}
                       </p>
                     )}
@@ -679,13 +674,13 @@ const Goals = () => {
                   <div className="flex items-center gap-2 ml-2 flex-shrink-0">
                     <button
                       onClick={() => startEditing(todo)}
-                      className="p-1 text-gray-400 hover:text-indigo-600"
+                      className="p-1 text-midnight-200 hover:text-electric-400"
                     >
                       <Edit size={16} />
                     </button>
                     <button
                       onClick={() => deleteTodo(todo.id)}
-                      className="p-1 text-gray-400 hover:text-red-600"
+                      className="p-1 text-midnight-200 hover:text-sunny-400"
                     >
                       <Trash2 size={16} />
                     </button>
@@ -697,14 +692,14 @@ const Goals = () => {
         </div>
 
         {/* Notes Section */}
-        <div className="bg-white rounded-xl p-6 shadow-lg h-[450px] flex flex-col">
+        <div className="bg-midnight-400 rounded-xl p-6 shadow-lg h-[450px] flex flex-col">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-semibold text-indigo-800 flex items-center gap-2">
-              <BookOpen className="text-indigo-600" /> Notes
+            <h2 className="text-xl font-semibold text-white flex items-center gap-2">
+              <BookOpen className="text-skyblue-400" /> Notes
             </h2>
             <button
               onClick={() => setShowCalendar(!showCalendar)}
-              className="p-2 text-indigo-600 hover:bg-indigo-50 rounded-lg"
+              className="p-2 text-skyblue-400 hover:bg-midnight-500 rounded-lg"
             >
               <Calendar size={20} />
             </button>
@@ -719,10 +714,10 @@ const Goals = () => {
                 exit={{ height: 0, opacity: 0 }}
                 className="mb-4 overflow-hidden"
               >
-                <div className="bg-gray-50 p-3 rounded-lg">
+                <div className="bg-midnight-500 p-3 rounded-lg">
                   <div className="grid grid-cols-7 gap-1 mb-2">
                     {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map(day => (
-                      <div key={day} className="text-center text-sm font-medium text-gray-500">
+                      <div key={day} className="text-center text-sm font-medium text-midnight-200">
                         {day}
                       </div>
                     ))}
@@ -738,8 +733,8 @@ const Goals = () => {
                           setShowCalendar(false);
                         }}
                         className={`p-2 text-sm rounded-lg ${selectedDate === new Date(new Date().setDate(day)).toISOString().split('T')[0]
-                          ? 'bg-indigo-600 text-white'
-                          : 'hover:bg-gray-100'
+                          ? 'bg-electric-500 text-white'
+                          : 'hover:bg-midnight-600 text-midnight-100'
                           }`}
                       >
                         {day}
@@ -752,20 +747,22 @@ const Goals = () => {
           </AnimatePresence>
 
           {/* Single Note with Lined Paper Effect */}
-          <div className="bg-gray-800 rounded-lg p-4 flex-1 flex flex-col">
+          <div className="bg-midnight-600 rounded-lg p-4 flex-1 flex flex-col">
             <div className="flex justify-between items-center mb-2">
-              <h3 className="text-gray-300 font-medium">{new Date(selectedDate).toLocaleDateString('en-US', {
-                weekday: 'long',
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-              })}</h3>
+              <h3 className="text-midnight-100 font-medium">
+                {new Date(selectedDate).toLocaleDateString('en-US', {
+                  weekday: 'long',
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric'
+                })}
+              </h3>
             </div>
             <div className="relative flex-1 overflow-hidden">
               <div
                 className="absolute w-full pointer-events-none"
                 style={{
-                  backgroundImage: `repeating-linear-gradient(to bottom, transparent, transparent 30px, #374151 31px)`,
+                  backgroundImage: `repeating-linear-gradient(to bottom, transparent, transparent 30px, #4B5563 31px)`,
                   backgroundSize: "100% 32px",
                   transform: `translateY(-${scrollPosition}px)`,
                   height: `${scrollHeight}px`,
@@ -774,7 +771,7 @@ const Goals = () => {
               ></div>
               <textarea
                 ref={textAreaRef}
-                className="relative w-full h-full bg-transparent text-gray-300 p-2 outline-none resize-none font-kalam font-light custom-scrollbar"
+                className="relative w-full h-full bg-transparent text-midnight-100 p-2 outline-none resize-none font-kalam font-light custom-scrollbar"
                 style={{
                   lineHeight: "32px",
                   paddingTop: "8px",
@@ -790,12 +787,12 @@ const Goals = () => {
       </div>
 
       {/* Monthly Goals and Manifestation Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Monthly Goals */}
-        <div className="bg-white rounded-xl p-6 shadow-lg h-[400px] flex flex-col">
+        <div className="bg-midnight-400 rounded-xl p-6 shadow-lg h-[400px] flex flex-col">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-semibold text-indigo-800 flex items-center gap-2">
-              <Target className="text-indigo-600" /> Monthly Goals
+            <h2 className="text-xl font-semibold text-white flex items-center gap-2">
+              <Target className="text-skyblue-400" /> Monthly Goals
             </h2>
           </div>
           <div className="flex gap-2 mb-4">
@@ -804,12 +801,12 @@ const Goals = () => {
               placeholder="Add a monthly goal..."
               value={newMonthlyGoal}
               onChange={(e) => setNewMonthlyGoal(e.target.value)}
-              className="flex-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="flex-1 p-2 border border-midnight-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-electric-500 bg-midnight-500 text-white placeholder-midnight-200"
               onKeyPress={(e) => e.key === 'Enter' && addMonthlyGoal()}
             />
             <button
               onClick={addMonthlyGoal}
-              className="p-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700"
+              className="p-2 bg-electric-600 text-white rounded-lg hover:bg-electric-700"
             >
               <Plus size={20} />
             </button>
@@ -818,7 +815,9 @@ const Goals = () => {
             {monthlyGoals.map(goal => (
               <div
                 key={goal.id}
-                className={`p-3 rounded-lg border ${goal.completed ? 'bg-indigo-50 border-indigo-200' : 'bg-white border-gray-200'
+                className={`p-3 rounded-lg border ${goal.completed
+                  ? 'bg-electric-500/20 border-electric-400'
+                  : 'bg-midnight-500 border-midnight-300'
                   }`}
               >
                 <div className="flex items-center justify-between">
@@ -826,8 +825,8 @@ const Goals = () => {
                     <button
                       onClick={() => toggleMonthlyGoal(goal.id)}
                       className={`w-6 h-6 rounded-full border-2 flex-shrink-0 flex items-center justify-center ${goal.completed
-                        ? 'bg-indigo-600 border-indigo-600 text-white'
-                        : 'border-gray-300'
+                        ? 'bg-electric-500 border-electric-500 text-white'
+                        : 'border-midnight-200'
                         }`}
                     >
                       {goal.completed && <Check size={14} />}
@@ -839,11 +838,14 @@ const Goals = () => {
                         onChange={(e) => setMonthlyGoalEditText(e.target.value)}
                         onBlur={() => saveMonthlyGoalEdit(goal.id)}
                         onKeyPress={(e) => e.key === 'Enter' && saveMonthlyGoalEdit(goal.id)}
-                        className="flex-1 p-1 border rounded focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        className="flex-1 p-1 border rounded focus:outline-none focus:ring-2 focus:ring-electric-500 bg-midnight-600 text-white"
                         autoFocus
                       />
                     ) : (
-                      <p className={`flex-1 truncate ${goal.completed ? 'text-gray-500 line-through' : 'text-gray-700'}`}>
+                      <p className={`flex-1 truncate ${goal.completed
+                        ? 'text-midnight-200 line-through'
+                        : 'text-white'
+                        }`}>
                         {goal.text}
                       </p>
                     )}
@@ -851,13 +853,13 @@ const Goals = () => {
                   <div className="flex items-center gap-2 ml-2 flex-shrink-0">
                     <button
                       onClick={() => startEditingMonthlyGoal(goal)}
-                      className="p-1 text-gray-400 hover:text-indigo-600"
+                      className="p-1 text-midnight-200 hover:text-electric-400"
                     >
                       <Edit size={16} />
                     </button>
                     <button
                       onClick={() => deleteMonthlyGoal(goal.id)}
-                      className="p-1 text-gray-400 hover:text-red-600"
+                      className="p-1 text-midnight-200 hover:text-sunny-400"
                     >
                       <Trash2 size={16} />
                     </button>
@@ -869,14 +871,14 @@ const Goals = () => {
         </div>
 
         {/* Manifestation Section */}
-        <div className="bg-white rounded-xl p-6 shadow-lg h-[400px] flex flex-col">
+        <div className="bg-gradient-to-br from-sunny-400 to-sunny-600 rounded-xl p-6 shadow-lg h-[400px] flex flex-col">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-semibold text-indigo-800 flex items-center gap-2">
-              <Target className="text-indigo-600" /> Daily Affirmations
+            <h2 className="text-xl font-semibold text-sunny-900 flex items-center gap-2">
+              <Target className="text-sunny-800" /> Daily Affirmations
             </h2>
             <button
               onClick={addManifestation}
-              className="p-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700"
+              className="p-2 bg-sunny-700 text-sunny-100 rounded-lg hover:bg-sunny-800"
             >
               <Plus size={20} />
             </button>
@@ -899,9 +901,9 @@ const Goals = () => {
                   height: '100%',
                   top: 0
                 }}
-                className="bg-white rounded-lg h-full flex flex-col"
+                className="bg-sunny-100/80 rounded-lg h-full flex flex-col"
               >
-                <div className="text-xs text-gray-400 mb-2 font-mono">
+                <div className="text-xs text-sunny-800/70 mb-2 font-mono">
                   {manifestation.date}
                 </div>
                 <textarea
@@ -917,7 +919,8 @@ const Goals = () => {
                     fontFamily: "'Dancing Script', cursive",
                     fontSize: '1.25rem',
                     lineHeight: '2',
-                    background: `linear-gradient(transparent, transparent 31px, #ccc 31px, #ccc 32px, transparent 32px)`,
+
+                    background: `linear-gradient(transparent, transparent 31px, #D1D5DB 31px, #D1D5DB 32px, transparent 32px)`,
                     backgroundSize: '100% 32px',
                     color: manifestation.color
                   }}
@@ -926,25 +929,25 @@ const Goals = () => {
             ))}
 
             {manifestations.length === 0 && (
-              <div className="text-center text-gray-400 h-full flex flex-col items-center justify-center">
-                <Target size={40} className="mb-4 opacity-50" />
+              <div className="text-center text-sunny-800/50 h-full flex flex-col items-center justify-center">
+                <Target size={40} className="mb-4 opacity-70" />
                 <p>Click + to start your manifestation journey</p>
               </div>
             )}
 
             {/* Page Navigation */}
             {manifestations.length > 0 && (
-              <div className="absolute bottom-0 left-0 right-0 flex justify-center gap-2 pb-2 bg-gradient-to-t from-white to-transparent pt-4">
+              <div className="absolute bottom-0 left-0 right-0 flex justify-center gap-2 pb-2 bg-gradient-to-t from-sunny-100/80 to-transparent pt-4">
                 <button
                   onClick={() => setCurrentPage(Math.max(0, currentPage - 1))}
-                  className="p-2 text-gray-400 hover:text-indigo-600 disabled:opacity-50"
+                  className="p-2 text-sunny-800/70 hover:text-sunny-900 disabled:opacity-50"
                   disabled={currentPage === 0}
                 >
                   ← Previous
                 </button>
                 <button
                   onClick={() => setCurrentPage(Math.min(manifestations.length - 1, currentPage + 1))}
-                  className="p-2 text-gray-400 hover:text-indigo-600 disabled:opacity-50"
+                  className="p-2 text-sunny-800/70 hover:text-sunny-900 disabled:opacity-50"
                   disabled={currentPage === manifestations.length - 1}
                 >
                   Next →
@@ -953,25 +956,27 @@ const Goals = () => {
             )}
           </div>
         </div>
-      </div>
 
-      {/* Add Google Font for handwriting */}
-      <style jsx global>{`
-        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap');
-        
-        .manifestation-page {
-          background: repeating-linear-gradient(
-            to bottom,
-            transparent,
-            transparent 31px,
-            #ccc 31px,
-            #ccc 32px,
-            transparent 32px
-          );
-          line-height: 32px;
-          padding: 8px 10px;
-        }
-      `}</style>
+        <style jsx global>{`
+  @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap');
+  
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.5);
+  }
+`}
+        </style>
+      </div>
     </div>
   );
 };
