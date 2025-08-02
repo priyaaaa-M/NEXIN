@@ -1,0 +1,21 @@
+.subjects-hub-bg {
+  background: #111927;
+  min-height: 100vh;
+  padding: 36px 0 0 0;
+}
+.studio-title {
+  color: #00ffe7;
+  font-family: 'Poppins', 'Inter', sans-serif;
+  font-size: 2.1em;
+  margin-bottom: 28px;
+  text-align: center;
+  letter-spacing: 1px;
+  text-shadow: 0 2px 16px #00ffe799;
+}
+.subjects-list {
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}

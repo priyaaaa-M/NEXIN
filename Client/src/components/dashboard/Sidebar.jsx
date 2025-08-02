@@ -24,18 +24,19 @@ const Sidebar = ({ onLogout }) => {
     { name: 'Personal', icon: User, path: '/dashboard/personal' },
     { name: 'Work Done Desk', icon: LayoutDashboard, path: '/dashboard/workdonedesk' },
     { name: 'Journal', icon: BookText, path: '/dashboard/journal' },
+    { name: 'Profile', icon: User, path: '/dashboard/profile' },
   ];
 
   return (
     <div className="w-64 h-screen bg-midnight-500 fixed left-0 top-0 overflow-y-auto shadow-md">
       {/* Logo */}
       <div className="p-6 border-b border-midnight-300">
-        <Link to="/" className="flex items-center gap-2">
+        <div className="flex items-center gap-2 cursor-default select-none">
           <Settings className="h-6 w-6 text-electric-400" />
           <span className="text-lg font-bold bg-gradient-to-r from-electric-400 to-skyblue-400 bg-clip-text text-transparent">
-            Priyaaaa
+            NEXIN
           </span>
-        </Link>
+        </div>
       </div>
 
       {/* Navigation */}
@@ -70,13 +71,7 @@ const Sidebar = ({ onLogout }) => {
       {/* Bottom Actions */}
       <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-midnight-300">
         <div className="flex flex-col space-y-2">
-          <Link
-            to="/"
-            className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-midnight-400 text-gray-300 hover:text-white transition-all"
-          >
-            <Home className="h-5 w-5" />
-            <span>Back to Home</span>
-          </Link>
+
           <button
             onClick={onLogout}
             className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-red-500/10 text-red-400 hover:text-red-300 transition-all"

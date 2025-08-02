@@ -1,0 +1,118 @@
+.subject-card {
+  background: #181f34;
+  border: 2px solid #3ecfff;
+  border-radius: 16px;
+  color: #fff;
+  margin: 24px 0;
+  padding: 24px 18px 12px 18px;
+  box-shadow: 0 4px 24px 0 rgba(62,207,255,0.08);
+  transition: box-shadow 0.2s, border-color 0.2s;
+  position: relative;
+}
+.subject-card.pinned {
+  border-color: #00ffe7;
+  box-shadow: 0 0 12px 2px #00ffe7aa;
+}
+.subject-header {
+  display: flex;
+  align-items: center;
+  font-size: 1.3rem;
+  font-family: 'Poppins', 'Inter', sans-serif;
+  margin-bottom: 6px;
+}
+.subject-icon {
+  margin-right: 8px;
+  font-size: 1.7em;
+}
+.subject-title {
+  flex: 1;
+  font-weight: 600;
+}
+.semester-tag {
+  background: #232b45;
+  color: #3ecfff;
+  border-radius: 6px;
+  padding: 2px 8px;
+  font-size: 0.85em;
+  margin-left: 8px;
+}
+.pin-icon {
+  cursor: pointer;
+  margin-left: 10px;
+  font-size: 1.3em;
+  transition: color 0.2s;
+}
+.subject-progress {
+  margin-bottom: 10px;
+  font-size: 1.1em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.progress-done {
+  color: #00ffe7;
+  font-size: 1.2em;
+}
+.subject-actions {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+.subject-actions button {
+  background: #232b45;
+  color: #3ecfff;
+  border: none;
+  border-radius: 7px;
+  padding: 5px 14px;
+  font-family: 'Poppins', 'Inter', sans-serif;
+  font-size: 1em;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: background 0.15s, color 0.15s;
+}
+.subject-actions button:hover {
+  background: #3ecfff;
+  color: #181f34;
+}
+.expand-btn {
+  margin-left: auto;
+  background: #232b45;
+  color: #b983ff;
+}
+.units-accordion {
+  background: #202a48;
+  border-radius: 10px;
+  margin-top: 8px;
+  padding: 10px 8px;
+}
+.unit-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+  font-size: 1em;
+}
+.unit-name {
+  flex: 1;
+}
+.unit-status {
+  width: 32px;
+  text-align: center;
+}
+.unit-row button {
+  background: #181f34;
+  color: #3ecfff;
+  border: 1px solid #3ecfff44;
+  border-radius: 6px;
+  padding: 3px 10px;
+  font-size: 0.95em;
+  cursor: pointer;
+  margin-left: 4px;
+  transition: background 0.15s, color 0.15s;
+}
+.unit-row button:hover {
+  background: #3ecfff;
+  color: #181f34;
+}

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import '../../styles/theme.css';
 import { Send, Mail, Smartphone, Clock, CheckCircle } from 'lucide-react';
 
 const MessageAutomation = () => {

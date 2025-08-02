@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import '../../styles/theme.css';
 import {
   Code, GitBranch, CheckCircle, Clock, Calendar, Plus, Save, Github, X,
   Layout, Database, Users, ChevronDown, Search, FileText, Download, Star,
@@ -241,12 +242,12 @@ const Projects = () => {
   };
 
   return (
-    <div className={`text-gray-100 bg-midnight-500 min-h-screen p-6`}>
+    <div className="min-h-screen p-6 bg-main text-main">
       {/* Header */}
       <header className="mb-8 flex flex-col md:flex-row justify-between gap-4">
         <div>
           <h1 className="text-3xl font-bold mb-2">Project Dashboard</h1>
-          <p className="text-gray-400">Track and manage all your development projects</p>
+          <p className="text-muted">Track and manage all your development projects</p>
         </div>
         <div className="flex gap-3">
           <div className="relative flex items-center">
@@ -270,26 +271,26 @@ const Projects = () => {
             {showCalendar && (
               <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4">
                 <div className={`bg-midnight-400 rounded-xl p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-midnight-300`}>
-                  <button className="p-1 hover:bg-gray-700 rounded">
+                  <button className="p-1 hover:bg-main rounded">
                     <ChevronLeft size={16} />
                   </button>
                   <span className="font-medium">
                     {new Date().toLocaleString('default', { month: 'long', year: 'numeric' })}
                   </span>
-                  <button className="p-1 hover:bg-gray-700 rounded">
+                  <button className="p-1 hover:bg-main rounded">
                     <ChevronRight size={16} />
                   </button>
                 </div>
                 <div className="grid grid-cols-7 gap-1 text-center text-sm">
                   {['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'].map(day => (
-                    <div key={day} className="text-gray-400 p-1">{day}</div>
+                    <div key={day} className="text-muted p-1">{day}</div>
                   ))}
                   {Array.from({ length: 31 }, (_, i) => i + 1).map(day => (
                     <button
                       key={day}
                       onClick={() => handleCalendarClick(new Date(new Date().getFullYear(), new Date().getMonth(), day))}
-                      className={`p-1 rounded-full w-8 h-8 ${dateFilter && dateFilter.getDate() === day ? 'bg-blue-600' :
-                        'hover:bg-gray-700'
+                      className={`p-1 rounded-full w-8 h-8 ${dateFilter && dateFilter.getDate() === day ? 'bg-accent' :
+                        'hover:bg-main'
                         }`}
                     >
                       {day}
@@ -304,7 +305,7 @@ const Projects = () => {
               setIsEditing(false);
               setShowProjectForm(true);
             }}
-            className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors"
+            className="flex items-center gap-2 px-4 py-2 bg-accent hover:bg-accent-dark rounded-lg transition-colors"
           >
             <Plus size={18} /> New Project
           </button>
@@ -314,7 +315,7 @@ const Projects = () => {
       {/* Project Creation/Edit Modal */}
       {showProjectForm && (
         <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4">
-          <div className="bg-gray-800 rounded-xl p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+          <div className="bg-card rounded-xl p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-2xl font-bold">
                 {isEditing ? 'Edit Project' : 'New Project Questionnaire'}
@@ -323,7 +324,7 @@ const Projects = () => {
                 setShowProjectForm(false);
                 setIsEditing(false);
                 resetForm();
-              }} className="text-gray-400 hover:text-white">
+              }} className="text-muted hover:text-white">
                 <X size={24} />
               </button>
             </div>
@@ -332,21 +333,21 @@ const Projects = () => {
               {/* Basic Info */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-gray-300 mb-2">Project Name*</label>
+                  <label className="block text-main mb-2">Project Name*</label>
                   <input
                     type="text"
                     value={newProject.name}
                     onChange={(e) => setNewProject({ ...newProject, name: e.target.value })}
-                    className="w-full bg-gray-700 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full bg-main rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-accent"
                     required
                   />
                 </div>
                 <div>
-                  <label className="block text-gray-300 mb-2">Project Type*</label>
+                  <label className="block text-main mb-2">Project Type*</label>
                   <select
                     value={newProject.type}
                     onChange={(e) => setNewProject({ ...newProject, type: e.target.value })}
-                    className="w-full bg-gray-700 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full bg-main rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-accent"
                     required
                   >
                     <option value="">Select type</option>
@@ -358,11 +359,11 @@ const Projects = () => {
               </div>
 
               <div>
-                <label className="block text-gray-300 mb-2">Project Purpose*</label>
+                <label className="block text-main mb-2">Project Purpose*</label>
                 <textarea
                   value={newProject.purpose}
                   onChange={(e) => setNewProject({ ...newProject, purpose: e.target.value })}
-                  className="w-full bg-gray-700 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[100px]"
+                  className="w-full bg-main rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-accent min-h-[100px]"
                   placeholder="Describe what problem this project solves..."
                   required
                 />
@@ -371,7 +372,7 @@ const Projects = () => {
               {/* Tech Stack */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
-                  <label className="block text-gray-300 mb-2">Frontend*</label>
+                  <label className="block text-main mb-2">Frontend*</label>
                   <div className="relative">
                     <div className="flex flex-wrap gap-2">
                       {frontendTech.map(tech => (
@@ -380,7 +381,7 @@ const Projects = () => {
                           type="button"
                           onClick={() => toggleSelection(tech, 'frontend')}
                           className={`px-3 py-1 rounded-full text-sm flex items-center gap-1 ${newProject.frontend.includes(tech) ?
-                            'bg-blue-600' : 'bg-gray-700 hover:bg-gray-600'
+                            'bg-accent' : 'bg-main hover:bg-card'
                             }`}
                         >
                           {newProject.frontend.includes(tech) && <Check size={14} />}
@@ -391,11 +392,11 @@ const Projects = () => {
                   </div>
                 </div>
                 <div>
-                  <label className="block text-gray-300 mb-2">Backend*</label>
+                  <label className="block text-main mb-2">Backend*</label>
                   <select
                     value={newProject.backend}
                     onChange={(e) => setNewProject({ ...newProject, backend: e.target.value })}
-                    className="w-full bg-gray-700 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full bg-main rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-accent"
                     required
                   >
                     <option value="">Select backend</option>
@@ -405,11 +406,11 @@ const Projects = () => {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-gray-300 mb-2">Database</label>
+                  <label className="block text-main mb-2">Database</label>
                   <select
                     value={newProject.database}
                     onChange={(e) => setNewProject({ ...newProject, database: e.target.value })}
-                    className="w-full bg-gray-700 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full bg-main rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-accent"
                   >
                     <option value="">Select database</option>
                     {databases.map(db => (
@@ -422,20 +423,20 @@ const Projects = () => {
               {/* Design & Dates */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-gray-300 mb-2">Design Layout</label>
+                  <label className="block text-main mb-2">Design Layout</label>
                   <div className="flex gap-2">
                     <input
                       type="url"
                       placeholder="Figma, Adobe XD, or image URL"
                       value={newProject.layout}
                       onChange={(e) => setNewProject({ ...newProject, layout: e.target.value })}
-                      className="flex-1 bg-gray-700 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="flex-1 bg-main rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-accent"
                     />
                     <a
                       href="https://figma.com"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg flex items-center gap-2"
+                      className="bg-main hover:bg-card px-4 py-2 rounded-lg flex items-center gap-2"
                     >
                       <Layout size={16} /> Figma
                     </a>
@@ -443,21 +444,21 @@ const Projects = () => {
                 </div>
                 <div className="grid grid-cols-2 gap-2">
                   <div>
-                    <label className="block text-gray-300 mb-2">Start Date</label>
+                    <label className="block text-main mb-2">Start Date</label>
                     <input
                       type="date"
                       value={newProject.startDate}
                       onChange={(e) => setNewProject({ ...newProject, startDate: e.target.value })}
-                      className="w-full bg-gray-700 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full bg-main rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-accent"
                     />
                   </div>
                   <div>
-                    <label className="block text-gray-300 mb-2">Deadline</label>
+                    <label className="block text-main mb-2">Deadline</label>
                     <input
                       type="date"
                       value={newProject.deadline}
                       onChange={(e) => setNewProject({ ...newProject, deadline: e.target.value })}
-                      className="w-full bg-gray-700 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full bg-main rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-accent"
                     />
                   </div>
                 </div>
@@ -466,7 +467,7 @@ const Projects = () => {
               {/* Team & GitHub */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-gray-300 mb-2">Team Members</label>
+                  <label className="block text-main mb-2">Team Members</label>
                   <div className="flex gap-2">
                     <input
                       type="email"
@@ -480,11 +481,11 @@ const Projects = () => {
                           e.target.value = '';
                         }
                       }}
-                      className="flex-1 bg-gray-700 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="flex-1 bg-main rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-accent"
                     />
                     <button
                       type="button"
-                      className="bg-gray-700 hover:bg-gray-600 px-3 py-2 rounded-lg"
+                      className="bg-main hover:bg-card px-3 py-2 rounded-lg"
                     >
                       <Users size={16} />
                     </button>
@@ -492,7 +493,7 @@ const Projects = () => {
                   {newProject.team.length > 0 && (
                     <div className="flex flex-wrap gap-2 mt-2">
                       {newProject.team.map((email, index) => (
-                        <span key={index} className="bg-gray-700 text-sm px-2 py-1 rounded flex items-center gap-1">
+                        <span key={index} className="bg-main text-sm px-2 py-1 rounded flex items-center gap-1">
                           {email}
                           <button
                             type="button"
@@ -500,7 +501,7 @@ const Projects = () => {
                               ...newProject,
                               team: newProject.team.filter((_, i) => i !== index)
                             })}
-                            className="text-gray-400 hover:text-white"
+                            className="text-muted hover:text-white"
                           >
                             <X size={14} />
                           </button>
@@ -510,20 +511,20 @@ const Projects = () => {
                   )}
                 </div>
                 <div>
-                  <label className="block text-gray-300 mb-2">GitHub Repository</label>
+                  <label className="block text-main mb-2">GitHub Repository</label>
                   <input
                     type="url"
                     placeholder="https://github.com/username/repo"
                     value={newProject.github}
                     onChange={(e) => setNewProject({ ...newProject, github: e.target.value })}
-                    className="w-full bg-gray-700 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full bg-main rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-accent"
                   />
                 </div>
               </div>
 
               {/* Project Tags */}
               <div>
-                <label className="block text-gray-300 mb-2">Project Tags</label>
+                <label className="block text-main mb-2">Project Tags</label>
                 <div className="flex flex-wrap gap-2">
                   {projectTags.map(tag => (
                     <button
@@ -531,7 +532,7 @@ const Projects = () => {
                       type="button"
                       onClick={() => toggleSelection(tag, 'tags')}
                       className={`px-3 py-1 rounded-full text-sm flex items-center gap-1 ${newProject.tags.includes(tag) ?
-                        'bg-blue-600' : 'bg-gray-700 hover:bg-gray-600'
+                        'bg-accent' : 'bg-main hover:bg-card'
                         }`}
                     >
                       {newProject.tags.includes(tag) && <Check size={14} />}
@@ -549,13 +550,13 @@ const Projects = () => {
                     setIsEditing(false);
                     resetForm();
                   }}
-                  className="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors"
+                  className="px-4 py-2 bg-main hover:bg-card rounded-lg transition-colors"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors"
+                  className="flex items-center gap-2 px-4 py-2 bg-accent hover:bg-accent-dark rounded-lg transition-colors"
                 >
                   <Save size={18} /> {isEditing ? 'Update' : 'Create'} Project
                 </button>
@@ -568,30 +569,30 @@ const Projects = () => {
       {/* Project Detail Modal */}
       {selectedProject && (
         <div className="fixed inset-0 bg-black bg-opacity-70 flex items-start justify-center z-50 p-4 overflow-y-auto">
-          <div className="bg-gray-800 rounded-xl p-6 max-w-4xl w-full my-8" ref={projectDetailRef}>
+          <div className="bg-card rounded-xl p-6 max-w-4xl w-full my-8" ref={projectDetailRef}>
             <div className="flex justify-between items-start mb-6">
               <div>
                 <h2 className="text-2xl font-bold">{selectedProject.name}</h2>
-                <p className="text-gray-400">{selectedProject.type} • Created {new Date(selectedProject.createdAt).toLocaleDateString()}</p>
+                <p className="text-muted">{selectedProject.type} • Created {new Date(selectedProject.createdAt).toLocaleDateString()}</p>
               </div>
               <div className="flex gap-2">
                 <button
                   onClick={() => setupEditForm(selectedProject)}
-                  className="text-gray-400 hover:text-yellow-400 p-1"
+                  className="text-muted hover:text-yellow-400 p-1"
                   title="Edit Project"
                 >
                   <Edit size={20} />
                 </button>
                 <button
                   onClick={() => handleDeleteProject(selectedProject.id)}
-                  className="text-gray-400 hover:text-red-400 p-1"
+                  className="text-muted hover:text-red-400 p-1"
                   title="Delete Project"
                 >
                   <Trash2 size={20} />
                 </button>
                 <button
                   onClick={() => setSelectedProject(null)}
-                  className="text-gray-400 hover:text-white p-1"
+                  className="text-muted hover:text-white p-1"
                 >
                   <X size={24} />
                 </button>
@@ -602,25 +603,25 @@ const Projects = () => {
             <div className="flex border-b border-gray-700 mb-6">
               <button
                 onClick={() => setActiveTab('overview')}
-                className={`px-4 py-2 font-medium ${activeTab === 'overview' ? 'text-blue-400 border-b-2 border-blue-400' : 'text-gray-400 hover:text-white'}`}
+                className={`px-4 py-2 font-medium ${activeTab === 'overview' ? 'text-blue-400 border-b-2 border-blue-400' : 'text-muted hover:text-white'}`}
               >
                 Overview
               </button>
               <button
                 onClick={() => setActiveTab('tasks')}
-                className={`px-4 py-2 font-medium ${activeTab === 'tasks' ? 'text-blue-400 border-b-2 border-blue-400' : 'text-gray-400 hover:text-white'}`}
+                className={`px-4 py-2 font-medium ${activeTab === 'tasks' ? 'text-blue-400 border-b-2 border-blue-400' : 'text-muted hover:text-white'}`}
               >
                 Tasks
               </button>
               <button
                 onClick={() => setActiveTab('design')}
-                className={`px-4 py-2 font-medium ${activeTab === 'design' ? 'text-blue-400 border-b-2 border-blue-400' : 'text-gray-400 hover:text-white'}`}
+                className={`px-4 py-2 font-medium ${activeTab === 'design' ? 'text-blue-400 border-b-2 border-blue-400' : 'text-muted hover:text-white'}`}
               >
                 Design
               </button>
               <button
                 onClick={() => setActiveTab('notes')}
-                className={`px-4 py-2 font-medium ${activeTab === 'notes' ? 'text-blue-400 border-b-2 border-blue-400' : 'text-gray-400 hover:text-white'}`}
+                className={`px-4 py-2 font-medium ${activeTab === 'notes' ? 'text-blue-400 border-b-2 border-blue-400' : 'text-muted hover:text-white'}`}
               >
                 Notes
               </button>
@@ -632,33 +633,33 @@ const Projects = () => {
                 <>
                   <div>
                     <h3 className="text-lg font-semibold mb-2">Project Purpose</h3>
-                    <p className="text-gray-300">{selectedProject.purpose}</p>
+                    <p className="text-main">{selectedProject.purpose}</p>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4 print-section">
-                    <div className="bg-gray-700 p-4 rounded-lg">
-                      <h4 className="text-gray-400 text-sm mb-1">Tech Stack</h4>
+                    <div className="bg-main p-4 rounded-lg">
+                      <h4 className="text-muted text-sm mb-1">Tech Stack</h4>
                       <div className="space-y-2">
                         <div>
-                          <p className="text-sm text-gray-400">Frontend</p>
+                          <p className="text-sm text-muted">Frontend</p>
                           <div className="flex flex-wrap gap-1 mt-1">
                             {selectedProject.frontend.map(tech => (
-                              <span key={tech} className="bg-gray-600 text-xs px-2 py-1 rounded">
+                              <span key={tech} className="bg-card-light text-xs px-2 py-1 rounded">
                                 {tech}
                               </span>
                             ))}
                           </div>
                         </div>
                         <div>
-                          <p className="text-sm text-gray-400">Backend</p>
-                          <span className="bg-gray-600 text-xs px-2 py-1 rounded">
+                          <p className="text-sm text-muted">Backend</p>
+                          <span className="bg-card-light text-xs px-2 py-1 rounded">
                             {selectedProject.backend}
                           </span>
                         </div>
                         {selectedProject.database && (
                           <div>
-                            <p className="text-sm text-gray-400">Database</p>
-                            <span className="bg-gray-600 text-xs px-2 py-1 rounded">
+                            <p className="text-sm text-muted">Database</p>
+                            <span className="bg-card-light text-xs px-2 py-1 rounded">
                               {selectedProject.database}
                             </span>
                           </div>
@@ -666,22 +667,22 @@ const Projects = () => {
                       </div>
                     </div>
 
-                    <div className="bg-gray-700 p-4 rounded-lg">
-                      <h4 className="text-gray-400 text-sm mb-1">Timeline</h4>
+                    <div className="bg-main p-4 rounded-lg">
+                      <h4 className="text-muted text-sm mb-1">Timeline</h4>
                       <div className="space-y-3">
                         <div>
-                          <p className="text-sm text-gray-400">Start Date</p>
+                          <p className="text-sm text-muted">Start Date</p>
                           <p>{selectedProject.startDate || 'Not set'}</p>
                         </div>
                         <div>
-                          <p className="text-sm text-gray-400">Deadline</p>
+                          <p className="text-sm text-muted">Deadline</p>
                           <p>{selectedProject.deadline || 'Not set'}</p>
                         </div>
                         <div>
-                          <p className="text-sm text-gray-400">Status</p>
+                          <p className="text-sm text-muted">Status</p>
                           <div className="flex items-center gap-2">
-                            <div className={`w-2 h-2 rounded-full ${selectedProject.status === 'Completed' ? 'bg-green-500' :
-                              selectedProject.status === 'In Progress' ? 'bg-yellow-500' :
+                            <div className={`w-2 h-2 rounded-full ${selectedProject.status === 'Completed' ? 'bg-accent' :
+                              selectedProject.status === 'In Progress' ? 'bg-yellow-400' :
                                 'bg-gray-500'
                               }`} />
                             <p>{selectedProject.status}</p>
@@ -690,22 +691,22 @@ const Projects = () => {
                       </div>
                     </div>
 
-                    <div className="bg-gray-700 p-4 rounded-lg">
-                      <h4 className="text-gray-400 text-sm mb-1">Progress</h4>
+                    <div className="bg-main p-4 rounded-lg">
+                      <h4 className="text-muted text-sm mb-1">Progress</h4>
                       <div className="mb-3">
                         <div className="flex justify-between text-sm mb-1">
                           <span>Overall</span>
                           <span>{selectedProject.progress}%</span>
                         </div>
-                        <div className="w-full bg-gray-600 rounded-full h-2">
+                        <div className="w-full bg-card-light rounded-full h-2">
                           <div
-                            className="bg-blue-500 h-2 rounded-full"
+                            className="bg-accent h-2 rounded-full"
                             style={{ width: `${selectedProject.progress}%` }}
                           />
                         </div>
                       </div>
                       <div>
-                        <p className="text-sm text-gray-400 mb-1">Tasks</p>
+                        <p className="text-sm text-muted mb-1">Tasks</p>
                         <p>
                           {selectedProject.tasks.filter(t => t.completed).length} / {selectedProject.tasks.length} completed
                         </p>
@@ -718,7 +719,7 @@ const Projects = () => {
                       <h3 className="text-lg font-semibold mb-2">Team Members</h3>
                       <div className="flex flex-wrap gap-2">
                         {selectedProject.team.map((email, index) => (
-                          <span key={index} className="bg-gray-700 px-3 py-1 rounded-full text-sm">
+                          <span key={index} className="bg-main px-3 py-1 rounded-full text-sm">
                             {email}
                           </span>
                         ))}
@@ -731,7 +732,7 @@ const Projects = () => {
                       <h3 className="text-lg font-semibold mb-2">Project Tags</h3>
                       <div className="flex flex-wrap gap-2">
                         {selectedProject.tags.map((tag, index) => (
-                          <span key={index} className="bg-blue-600/20 text-blue-400 px-3 py-1 rounded-full text-sm">
+                          <span key={index} className="bg-accent/20 text-blue-400 px-3 py-1 rounded-full text-sm">
                             {tag}
                           </span>
                         ))}
@@ -752,23 +753,23 @@ const Projects = () => {
                   <div className="space-y-2">
                     {selectedProject.tasks.length > 0 ? (
                       selectedProject.tasks.map(task => (
-                        <div key={task.id} className="flex items-center gap-3 bg-gray-700 p-3 rounded-lg">
+                        <div key={task.id} className="flex items-center gap-3 bg-main p-3 rounded-lg">
                           <input
                             type="checkbox"
                             checked={task.completed}
                             onChange={() => { }}
-                            className="h-4 w-4 rounded border-gray-600 bg-gray-800 text-blue-500 focus:ring-blue-500 no-print"
+                            className="h-4 w-4 rounded border-gray-600 bg-card text-blue-500 focus:ring-accent no-print"
                           />
-                          <span className={`flex-1 ${task.completed ? 'line-through text-gray-400' : ''}`}>
+                          <span className={`flex-1 ${task.completed ? 'line-through text-muted' : ''}`}>
                             {task.name}
                           </span>
-                          <button className="text-gray-400 hover:text-white no-print">
+                          <button className="text-muted hover:text-white no-print">
                             <X size={16} />
                           </button>
                         </div>
                       ))
                     ) : (
-                      <p className="text-gray-400 text-center py-4">No tasks yet</p>
+                      <p className="text-muted text-center py-4">No tasks yet</p>
                     )}
                   </div>
                 </div>
@@ -778,7 +779,7 @@ const Projects = () => {
                 <div className="print-section">
                   <h3 className="text-lg font-semibold mb-2">Design Layout</h3>
                   {selectedProject.layout ? (
-                    <div className="bg-gray-700 rounded-lg overflow-hidden">
+                    <div className="bg-main rounded-lg overflow-hidden">
                       {selectedProject.layout.includes('figma.com') ? (
                         <iframe
                           src={selectedProject.layout}
@@ -787,7 +788,7 @@ const Projects = () => {
                         />
                       ) : (
                         <div className="p-4 text-center">
-                          <p className="text-gray-400 mb-2">Design link:</p>
+                          <p className="text-muted mb-2">Design link:</p>
                           <a
                             href={selectedProject.layout}
                             target="_blank"
@@ -800,7 +801,7 @@ const Projects = () => {
                       )}
                       {selectedProject.layout.includes('figma.com') && (
                         <div className="print-only p-4">
-                          <p className="text-gray-400 mb-2">Figma Design:</p>
+                          <p className="text-muted mb-2">Figma Design:</p>
                           <a href={selectedProject.layout} className="text-blue-400">
                             {selectedProject.layout}
                           </a>
@@ -808,7 +809,7 @@ const Projects = () => {
                       )}
                     </div>
                   ) : (
-                    <p className="text-gray-400">No design layout added yet</p>
+                    <p className="text-muted">No design layout added yet</p>
                   )}
                 </div>
               )}
@@ -817,18 +818,18 @@ const Projects = () => {
                 <div className="print-section">
                   <h3 className="text-lg font-semibold mb-2">Project Notes</h3>
                   {selectedProject.notes ? (
-                    <div className="bg-gray-700 p-4 rounded-lg">
+                    <div className="bg-main p-4 rounded-lg">
                       <p className="whitespace-pre-line">{selectedProject.notes}</p>
                     </div>
                   ) : (
-                    <p className="text-gray-400">No notes added yet</p>
+                    <p className="text-muted">No notes added yet</p>
                   )}
                   <textarea
-                    className="w-full bg-gray-700 rounded-lg px-4 py-2 mt-4 focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[150px] no-print"
+                    className="w-full bg-main rounded-lg px-4 py-2 mt-4 focus:outline-none focus:ring-2 focus:ring-accent min-h-[150px] no-print"
                     placeholder="Add project notes..."
                   />
                   <div className="flex justify-end mt-2 no-print">
-                    <button className="px-3 py-1 bg-blue-600 hover:bg-blue-700 rounded text-sm">
+                    <button className="px-3 py-1 bg-accent hover:bg-accent-dark rounded text-sm">
                       Save Notes
                     </button>
                   </div>
@@ -848,13 +849,13 @@ const Projects = () => {
                   <Github size={18} /> View on GitHub
                 </a>
               ) : (
-                <button className="flex items-center gap-2 text-gray-400 hover:text-white">
+                <button className="flex items-center gap-2 text-muted hover:text-white">
                   <Github size={18} /> Connect GitHub Repository
                 </button>
               )}
               <button
                 onClick={handleExportPDF}
-                className="flex items-center gap-2 text-gray-400 hover:text-white"
+                className="flex items-center gap-2 text-muted hover:text-white"
               >
                 <Download size={16} /> Export as PDF
               </button>
@@ -868,26 +869,26 @@ const Projects = () => {
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-semibold">Your Projects</h2>
           <div className="relative w-64">
-            <Search className="absolute left-3 top-2.5 text-gray-400" size={18} />
+            <Search className="absolute left-3 top-2.5 text-muted" size={18} />
             <input
               type="text"
               placeholder="Search projects..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10 pr-4 py-2 bg-gray-800 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="pl-10 pr-4 py-2 bg-card rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-accent"
             />
           </div>
         </div>
 
         {filteredProjects.length === 0 ? (
-          <div className="bg-gray-800 rounded-xl p-8 text-center">
-            <p className="text-gray-400 mb-4">No projects found matching your criteria</p>
+          <div className="bg-card rounded-xl p-8 text-center">
+            <p className="text-muted mb-4">No projects found matching your criteria</p>
             <button
               onClick={() => {
                 setSearchTerm('');
                 setDateFilter(null);
               }}
-              className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg inline-flex items-center gap-2"
+              className="px-4 py-2 bg-accent hover:bg-accent-dark rounded-lg inline-flex items-center gap-2"
             >
               Clear filters
             </button>
@@ -897,32 +898,32 @@ const Projects = () => {
             {filteredProjects.map(project => (
               <div
                 key={project.id}
-                className="bg-gray-800 rounded-xl p-6 hover:bg-gray-750 transition-colors cursor-pointer relative"
+                className="bg-card rounded-xl p-6 hover:bg-gray-750 transition-colors cursor-pointer relative"
                 onClick={() => setSelectedProject(project)}
               >
                 <div className="flex flex-col h-full">
                   <div className="flex justify-between items-start mb-4">
                     <h3 className="text-xl font-semibold">{project.name}</h3>
-                    <span className="bg-gray-700 text-sm px-2 py-1 rounded">
+                    <span className="bg-main text-sm px-2 py-1 rounded">
                       {project.type}
                     </span>
                   </div>
 
-                  <p className="text-gray-400 text-sm mb-4 line-clamp-2">{project.purpose}</p>
+                  <p className="text-muted text-sm mb-4 line-clamp-2">{project.purpose}</p>
 
                   <div className="flex flex-wrap gap-2 mb-4">
                     {project.frontend.slice(0, 3).map(tech => (
-                      <span key={tech} className="bg-gray-700 text-xs px-2 py-1 rounded">
+                      <span key={tech} className="bg-main text-xs px-2 py-1 rounded">
                         {tech}
                       </span>
                     ))}
                     {project.backend && (
-                      <span className="bg-gray-700 text-xs px-2 py-1 rounded">
+                      <span className="bg-main text-xs px-2 py-1 rounded">
                         {project.backend}
                       </span>
                     )}
                     {project.frontend.length > 3 && (
-                      <span className="bg-gray-700 text-xs px-2 py-1 rounded">
+                      <span className="bg-main text-xs px-2 py-1 rounded">
                         +{project.frontend.length - 3} more
                       </span>
                     )}
@@ -931,9 +932,9 @@ const Projects = () => {
                   <div className="mt-auto">
                     <div className="flex justify-between items-center mb-2">
                       <div>
-                        <p className="text-gray-400 text-xs">Progress</p>
+                        <p className="text-muted text-xs">Progress</p>
                         <div className="flex items-center gap-2">
-                          <div className="w-16 bg-gray-700 rounded-full h-1.5">
+                          <div className="w-16 bg-main rounded-full h-1.5">
                             <div
                               className="bg-blue-500 h-1.5 rounded-full"
                               style={{ width: `${project.progress}%` }}
@@ -949,7 +950,7 @@ const Projects = () => {
                           onClick={(e) => e.stopPropagation()}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-gray-400 hover:text-white"
+                          className="text-muted hover:text-white"
                         >
                           <Github size={16} />
                         </a>
@@ -957,7 +958,7 @@ const Projects = () => {
                     </div>
 
                     <div className="flex flex-col items-end gap-1">
-                      <span className="text-xs text-gray-400">
+                      <span className="text-xs text-muted">
                         {new Date(project.createdAt).toLocaleDateString()}
                       </span>
                       <div className="flex gap-2">
@@ -966,7 +967,7 @@ const Projects = () => {
                             e.stopPropagation();
                             setupEditForm(project);
                           }}
-                          className="text-gray-400 hover:text-blue-400 p-1"
+                          className="text-muted hover:text-blue-400 p-1"
                           title="Edit Project"
                         >
                           <Edit size={14} />
@@ -976,7 +977,7 @@ const Projects = () => {
                             e.stopPropagation();
                             handleDeleteProject(project.id);
                           }}
-                          className="text-gray-400 hover:text-red-400 p-1"
+                          className="text-muted hover:text-red-400 p-1"
                           title="Delete Project"
                         >
                           <Trash2 size={14} />
@@ -992,11 +993,11 @@ const Projects = () => {
       </div>
 
       {/* GitHub Integration Footer */}
-      <div className="bg-gray-800 rounded-xl p-6">
+      <div className="bg-card rounded-xl p-6">
         <div className="flex flex-col md:flex-row justify-between items-center gap-4">
           <div>
             <h3 className="text-lg font-semibold mb-2">GitHub Integration</h3>
-            <p className="text-gray-400">Connect your GitHub account to sync repositories</p>
+            <p className="text-muted">Connect your GitHub account to sync repositories</p>
           </div>
           <div className="flex gap-3 w-full md:w-auto">
             <input
@@ -1004,9 +1005,9 @@ const Projects = () => {
               value={githubLink}
               onChange={(e) => setGithubLink(e.target.value)}
               placeholder="https://github.com/username"
-              className="flex-1 bg-gray-700 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="flex-1 bg-main rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-accent"
             />
-            <button className="flex items-center gap-2 px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors">
+            <button className="flex items-center gap-2 px-4 py-2 bg-main hover:bg-card rounded-lg transition-colors">
               <Github size={18} /> Connect
             </button>
           </div>

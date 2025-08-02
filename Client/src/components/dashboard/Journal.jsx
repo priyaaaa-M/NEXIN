@@ -5,39 +5,7 @@ const Journal = () => {
   const [activeTab, setActiveTab] = useState('entries');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedEntry, setSelectedEntry] = useState(null);
-  const [entries, setEntries] = useState([
-    {
-      id: 1,
-      title: 'Project Breakthrough',
-      content: `Finally solved the neural network architecture issue that was causing poor convergence! After three days of debugging and trying different approaches, I realized the problem was in how I was normalizing the input data.
-
-Key learnings:
-- Always check your data preprocessing steps first
-- Batch normalization makes a huge difference in training stability
-- The learning rate scheduler I implemented works really well
-
-The model is now achieving 92% accuracy on the test set, which is a huge improvement from the previous 78%. I need to document this approach for the final project report.`,
-      date: 'Today, 3:45 PM',
-      mood: 'Excited',
-      tags: ['Neural Networks', 'Success', 'Project']
-    },
-    {
-      id: 2,
-      title: 'Midterm Preparation',
-      content: 'Need to focus more on algorithm complexity analysis. The practice questions from chapter 5 were particularly challenging. I spent 3 hours working through the recurrence relations and finally understand how to apply the master theorem. Need to create a cheat sheet for the different cases.',
-      date: 'Yesterday, 9:30 PM',
-      mood: 'Focused',
-      tags: ['Study', 'Algorithms', 'Midterm']
-    },
-    {
-      id: 3,
-      title: 'Team Meeting Notes',
-      content: 'Met with the project team today. We decided to use React for the frontend and Flask for the backend. Assigned tasks:\n- Sarah: User authentication\n- Mike: Database schema\n- Me: API endpoints\nNext meeting scheduled for Friday at 2pm.',
-      date: '3 days ago',
-      mood: 'Productive',
-      tags: ['Team', 'Meeting', 'Project']
-    },
-  ]);
+  const [entries, setEntries] = useState([]);
   const [newEntry, setNewEntry] = useState({
     title: '',
     content: '',

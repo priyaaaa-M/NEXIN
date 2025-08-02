@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import '../../styles/theme.css';
 import {
   DollarSign, TrendingUp, TrendingDown, PieChart,
   Plus, Settings, Download, Moon, Sun, X,
@@ -25,52 +26,31 @@ const Finance = () => {
   const [darkMode, setDarkMode] = useState(true);
 
   // State for transactions
-  const [transactions, setTransactions] = useState([
-    // Income transactions
-    { id: 1, type: 'income', amount: 9000, category: 'Stipend', source: 'Freelance', date: '2023-10-15' },
-    { id: 2, type: 'income', amount: 2000, category: 'Salary', source: 'Job', date: '2023-10-10' },
-    // Expense transactions
-    { id: 3, type: 'expense', amount: 15000, category: 'Rent', note: 'Monthly House Rent', date: '2023-10-01' },
-    { id: 4, type: 'expense', amount: 8000, category: 'Food', note: 'Monthly Groceries', date: '2023-10-05' },
-    { id: 5, type: 'expense', amount: 12000, category: 'Education', note: 'Course Fee', date: '2023-10-08' },
-    { id: 6, type: 'expense', amount: 5000, category: 'Medical', note: 'Health Checkup', date: '2023-10-12' },
-    { id: 7, type: 'expense', amount: 20000, category: 'Investment', note: 'Stock Market', date: '2023-10-15' },
-    { id: 8, type: 'expense', amount: 3000, category: 'Other', note: 'Miscellaneous', date: '2023-10-18' }
-  ]);
+  const [transactions, setTransactions] = useState([]);
 
   // Categories for income and expenses
   const incomeCategories = [
-    { id: 'Salary', label: 'Salary', icon: <Briefcase size={16} className="text-blue-500" /> },
-    { id: 'Freelance', label: 'Freelance', icon: <Laptop size={16} className="text-green-500" /> },
-    { id: 'Investment', label: 'Investment', icon: <TrendingUp size={16} className="text-purple-500" /> },
-    { id: 'Business', label: 'Business', icon: <Building2 size={16} className="text-orange-500" /> },
-    { id: 'Other', label: 'Other', icon: <CircleDollarSign size={16} className="text-gray-500" /> }
+    { id: 'Salary', label: 'Salary', icon: <Briefcase size={16} className="text-skyblue" /> },
+    { id: 'Freelance', label: 'Freelance', icon: <Laptop size={16} className="text-green" /> },
+    { id: 'Investment', label: 'Investment', icon: <TrendingUp size={16} className="text-purple" /> },
+    { id: 'Business', label: 'Business', icon: <Building2 size={16} className="text-orange" /> },
+    { id: 'Other', label: 'Other', icon: <CircleDollarSign size={16} className="text-muted" /> }
   ];
 
   const expenseCategories = [
-    { id: 'Food', label: 'Food & Dining', icon: <Utensils size={16} className="text-orange-500" /> },
-    { id: 'Rent', label: 'Rent', icon: <Home size={16} className="text-purple-500" /> },
-    { id: 'Transport', label: 'Transport', icon: <Car size={16} className="text-blue-500" /> },
-    { id: 'Shopping', label: 'Shopping', icon: <ShoppingBag size={16} className="text-pink-500" /> },
-    { id: 'Bills', label: 'Bills', icon: <Receipt size={16} className="text-yellow-500" /> },
-    { id: 'Other', label: 'Other', icon: <CircleDollarSign size={16} className="text-gray-500" /> }
+    { id: 'Food', label: 'Food & Dining', icon: <Utensils size={16} className="text-orange" /> },
+    { id: 'Rent', label: 'Rent', icon: <Home size={16} className="text-purple" /> },
+    { id: 'Transport', label: 'Transport', icon: <Car size={16} className="text-skyblue" /> },
+    { id: 'Shopping', label: 'Shopping', icon: <ShoppingBag size={16} className="text-pink" /> },
+    { id: 'Bills', label: 'Bills', icon: <Receipt size={16} className="text-yellow" /> },
+    { id: 'Other', label: 'Other', icon: <CircleDollarSign size={16} className="text-muted" /> }
   ];
 
   // Money making ideas
-  const moneyMakingIdeas = [
-    { id: 1, idea: 'Start freelancing on Fiverr/Upwork', category: 'Freelancing' },
-    { id: 2, idea: 'Create a blog or YouTube channel', category: 'Content Creation' },
-    { id: 3, idea: 'Rent out unused items', category: 'Passive Income' },
-    { id: 4, idea: 'Invest in mutual funds or stocks', category: 'Investment' },
-    { id: 5, idea: 'Teach coding or other skills online', category: 'Education' }
-  ];
+  const moneyMakingIdeas = []; // No dummy ideas
 
   // State for investments
-  const [investments, setInvestments] = useState([
-    { id: 1, type: 'Mutual Funds', amount: 5000, currentValue: 5200 },
-    { id: 2, type: 'Stocks', amount: 3000, currentValue: 3100 },
-    { id: 3, type: 'SIP', amount: 2000, currentValue: 2100 },
-  ]);
+  const [investments, setInvestments] = useState([]);
 
   // State for new transaction form
   const [newTransaction, setNewTransaction] = useState({
@@ -138,79 +118,73 @@ const Finance = () => {
   };
 
   // Chart data for income vs expenses
+  const months = [
+    'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+  ];
+
+  // Group transactions by month for line chart
+  const incomeByMonth = Array(12).fill(0);
+  const expenseByMonth = Array(12).fill(0);
+  transactions.forEach(t => {
+    const monthIdx = new Date(t.date).getMonth();
+    if (t.type === 'income') incomeByMonth[monthIdx] += t.amount;
+    if (t.type === 'expense') expenseByMonth[monthIdx] += t.amount;
+  });
+
   const lineChartData = {
-    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
+    labels: months,
     datasets: [
       {
         label: 'Income',
-        data: [1500, 1700, 1600, 1800, 1900, 2000, 2100, 2000, 1900, 2450],
-        borderColor: '#10B981',
+        data: incomeByMonth,
+        borderColor: 'var(--color-green)',
         backgroundColor: 'rgba(16, 185, 129, 0.1)',
-        tension: 0.3,
+        tension: 0.3
       },
       {
         label: 'Expenses',
-        data: [1200, 1300, 1400, 1500, 1600, 1700, 1800, 1700, 1600, 1840],
-        borderColor: '#EF4444',
-        backgroundColor: 'rgba(239, 68, 68, 0.1)',
-        tension: 0.3,
-      },
-    ],
+        data: expenseByMonth,
+        borderColor: 'var(--color-pink)',
+        backgroundColor: 'rgba(236, 72, 153, 0.1)',
+        tension: 0.3
+      }
+    ]
   };
 
-  // Pie chart data for expenses
-  const expenseCategoriesData = [
-    { name: 'Rent', amount: 800, color: '#6366F1' },
-    { name: 'Food', amount: 400, color: '#3B82F6' },
-    { name: 'Education', amount: 250, color: '#F59E0B' },
-    { name: 'Medical', amount: 120, color: '#EC4899' },
-    { name: 'Transportation', amount: 150, color: '#10B981' },
-    { name: 'Entertainment', amount: 120, color: '#F97316' },
-  ];
+  // Pie chart data for expense categories
+  
+  const expenseCategoryNames = ['Rent', 'Food', 'Education', 'Medical', 'Investment', 'Other'];
+const expenseCategoryTotals = expenseCategoryNames.map(cat =>
+  transactions.filter(t => t.type === 'expense' && t.category === cat)
+    .reduce((sum, t) => sum + t.amount, 0)
+);
 
-  const pieChartData = {
-    labels: expenseCategoriesData.map(c => c.name),
+const pieChartData = {
+  labels: expenseCategoryNames,
     datasets: [
       {
-        data: expenseCategoriesData.map(c => c.amount),
-        backgroundColor: expenseCategoriesData.map(c => c.color),
-        borderWidth: 1,
-      },
-    ],
+        data: expenseCategoryTotals,
+        backgroundColor: [
+          'var(--color-accent1)',
+          'var(--color-accent2)',
+          'var(--color-accent3)',
+          'var(--color-accent4)',
+          'var(--color-accent5)',
+          'var(--color-accent6)'
+        ]
+      }
+    ]
   };
 
   return (
-    <div className={`min-h-screen p-6 ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-50 text-gray-900'}`}>
+    <div className={`min-h-screen p-6 ${darkMode ? 'bg-main text-main' : 'bg-card text-main'}`}>
       {/* Header */}
       <header className="mb-8 flex justify-between items-center">
         <div>
           <h1 className="text-3xl font-bold mb-2">Personal Finance Manager</h1>
-          <p className={`${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+          <p className={`${darkMode ? 'text-muted' : 'text-gray-600'}`}>
             Track your income, expenses, and grow your wealth
           </p>
-        </div>
-        <div className="flex items-center gap-4">
-          <button
-            onClick={() => {/* TODO: Implement report generation */}}
-            className={`p-2 rounded-lg ${darkMode ? 'bg-gray-800 hover:bg-gray-700' : 'bg-white hover:bg-gray-100'} flex items-center gap-2`}
-            title="Generate Monthly Report"
-          >
-            <FileText size={20} />
-          </button>
-          <button
-            onClick={() => {/* TODO: Implement notifications */}}
-            className={`p-2 rounded-lg ${darkMode ? 'bg-gray-800 hover:bg-gray-700' : 'bg-white hover:bg-gray-100'} flex items-center gap-2`}
-            title="Notifications"
-          >
-            <Bell size={20} />
-          </button>
-          <button
-            onClick={() => setDarkMode(!darkMode)}
-            className={`p-2 rounded-lg ${darkMode ? 'bg-gray-800 hover:bg-gray-700' : 'bg-white hover:bg-gray-100'}`}
-            title="Toggle Theme"
-          >
-            {darkMode ? <Sun size={20} /> : <Moon size={20} />}
-          </button>
         </div>
       </header>
 
@@ -219,31 +193,31 @@ const Finance = () => {
         {/* Income Card */}
         <div className={`rounded-xl p-6 ${darkMode ? 'bg-gray-800' : 'bg-white shadow'}`}>
           <div className="flex items-center justify-between mb-1">
-            <p className={`${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>Income</p>
-            <TrendingUp className="h-5 w-5 text-green-500" />
+            <p className={`${darkMode ? 'text-muted' : 'text-main'}`}>Income</p>
+            <TrendingUp className="h-5 w-5 text-green" />
           </div>
-          <span className="text-2xl font-bold">₹{totalIncome.toLocaleString()}</span>
-          <p className="text-green-500 text-xs mt-1">+12% from last month</p>
+          <span className="text-2xl font-bold text-green">₹{totalIncome.toLocaleString()}</span>
+          <p className="text-green text-xs mt-1">+12% from last month</p>
         </div>
 
         {/* Expenses Card */}
         <div className={`rounded-xl p-6 ${darkMode ? 'bg-gray-800' : 'bg-white shadow'}`}>
           <div className="flex items-center justify-between mb-1">
-            <p className={`${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>Expenses</p>
-            <TrendingDown className="h-5 w-5 text-red-500" />
+            <p className={`${darkMode ? 'text-muted' : 'text-main'}`}>Expenses</p>
+            <TrendingDown className="h-5 w-5 text-pink" />
           </div>
-          <span className="text-2xl font-bold">₹{totalExpenses.toLocaleString()}</span>
-          <p className="text-red-500 text-xs mt-1">+8% from last month</p>
+          <span className="text-2xl font-bold text-pink">₹{totalExpenses.toLocaleString()}</span>
+          <p className="text-pink text-xs mt-1">+8% from last month</p>
         </div>
 
         {/* Investments Card */}
         <div className={`rounded-xl p-6 ${darkMode ? 'bg-gray-800' : 'bg-white shadow'}`}>
           <div className="flex items-center justify-between mb-1">
-            <p className={`${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>Investments</p>
-            <Wallet className="h-5 w-5 text-blue-500" />
+            <p className={`${darkMode ? 'text-muted' : 'text-main'}`}>Investments</p>
+            <Wallet className="h-5 w-5 text-skyblue" />
           </div>
-          <span className="text-2xl font-bold">₹{currentInvestmentValue.toLocaleString()}</span>
-          <p className={`text-xs mt-1 ${investmentProfit >= 0 ? 'text-green-500' : 'text-red-500'}`}>
+          <span className="text-2xl font-bold text-skyblue">₹{currentInvestmentValue.toLocaleString()}</span>
+          <p className={`text-xs mt-1 ${investmentProfit >= 0 ? 'text-green' : 'text-pink'}`}>
             {investmentProfit >= 0 ? '+' : ''}{investmentProfit.toLocaleString()} ({((investmentProfit / totalInvested) * 100).toFixed(2)}%)
           </p>
         </div>
@@ -251,23 +225,23 @@ const Finance = () => {
         {/* Savings Card */}
         <div className={`rounded-xl p-6 ${darkMode ? 'bg-gray-800' : 'bg-white shadow'}`}>
           <div className="flex items-center justify-between mb-1">
-            <p className={`${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>Savings</p>
-            <DollarSign className="h-5 w-5 text-purple-500" />
+            <p className={`${darkMode ? 'text-muted' : 'text-main'}`}>Savings</p>
+            <DollarSign className="h-5 w-5 text-purple" />
           </div>
-          <span className="text-2xl font-bold">₹{savings.toLocaleString()}</span>
-          <div className="mt-2 pt-2 border-t border-gray-300">
+          <span className="text-2xl font-bold text-purple">₹{savings.toLocaleString()}</span>
+          <div className="mt-2 pt-2 border-t border-midnight">
             <div className="flex justify-between text-sm">
-              <span className={`${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>Savings Goal</span>
+              <span className={`${darkMode ? 'text-muted' : 'text-main'}`}>Savings Goal</span>
               <span>₹10,000</span>
             </div>
             <div className="mt-2 flex items-center gap-2">
-              <div className="flex-1 h-2 rounded-full overflow-hidden bg-gray-300">
+              <div className="flex-1 h-2 rounded-full overflow-hidden bg-midnight">
                 <div
-                  className="h-full rounded-full bg-purple-500"
+                  className="h-full rounded-full bg-purple"
                   style={{ width: `${(savings / 10000) * 100}%` }}
                 />
               </div>
-              <span className={`text-sm ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+              <span className={`text-sm ${darkMode ? 'text-main' : 'text-muted'}`}>
                 {((savings / 10000) * 100).toFixed(1)}%
               </span>
             </div>
@@ -276,28 +250,28 @@ const Finance = () => {
       </div>
 
       {/* Tabs Navigation */}
-      <div className="flex border-b mb-6">
+      <div className="flex border-b border-accent mb-6">
         <button
           onClick={() => setActiveTab('overview')}
-          className={`px-4 py-2 font-medium ${activeTab === 'overview' ? 'border-b-2 border-blue-500 text-blue-500' : darkMode ? 'text-gray-400' : 'text-gray-600'}`}
+          className={`px-4 py-2 font-medium ${activeTab === 'overview' ? 'border-b-2 border-skyblue text-skyblue' : darkMode ? 'text-muted' : 'text-main'}`}
         >
           Overview
         </button>
         <button
           onClick={() => setActiveTab('income')}
-          className={`px-4 py-2 font-medium ${activeTab === 'income' ? 'border-b-2 border-blue-500 text-blue-500' : darkMode ? 'text-gray-400' : 'text-gray-600'}`}
+          className={`px-4 py-2 font-medium ${activeTab === 'income' ? 'border-b-2 border-skyblue text-skyblue' : darkMode ? 'text-muted' : 'text-main'}`}
         >
           Income
         </button>
         <button
           onClick={() => setActiveTab('expenses')}
-          className={`px-4 py-2 font-medium ${activeTab === 'expenses' ? 'border-b-2 border-blue-500 text-blue-500' : darkMode ? 'text-gray-400' : 'text-gray-600'}`}
+          className={`px-4 py-2 font-medium ${activeTab === 'expenses' ? 'border-b-2 border-skyblue text-skyblue' : darkMode ? 'text-muted' : 'text-main'}`}
         >
           Expenses
         </button>
         <button
           onClick={() => setActiveTab('investments')}
-          className={`px-4 py-2 font-medium ${activeTab === 'investments' ? 'border-b-2 border-blue-500 text-blue-500' : darkMode ? 'text-gray-400' : 'text-gray-600'}`}
+          className={`px-4 py-2 font-medium ${activeTab === 'investments' ? 'border-b-2 border-skyblue text-skyblue' : darkMode ? 'text-muted' : 'text-main'}`}
         >
           Investments
         </button>
@@ -308,7 +282,7 @@ const Finance = () => {
         {activeTab === 'overview' && (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* Income vs Expenses Chart */}
-            <div className={`lg:col-span-2 rounded-xl p-6 ${darkMode ? 'bg-gray-800' : 'bg-white shadow'}`}>
+            <div className={`lg:col-span-2 rounded-xl p-6 ${darkMode ? 'bg-card' : 'bg-main shadow'}`}>
               <h2 className="text-xl font-semibold mb-4">Income vs Expenses</h2>
               <div className="h-64">
                 <Line
@@ -372,62 +346,77 @@ const Finance = () => {
         )}
 
         {activeTab === 'income' && (
-          <div className={`rounded-xl overflow-hidden ${darkMode ? 'bg-gray-800' : 'bg-white shadow'}`}>
+      <div className={`rounded-xl overflow-hidden ${darkMode ? 'bg-card' : 'bg-main'}`}>
             <div className={`p-4 border-b ${darkMode ? 'border-gray-700' : 'border-gray-200'}`}>
               <h2 className="text-xl font-semibold">Income Management</h2>
             </div>
             <div className="p-6">
               {/* Income Table */}
-              <div className={`rounded-lg overflow-hidden ${darkMode ? 'bg-gray-700' : 'bg-gray-50'}`}>
+              <div className={`rounded-lg overflow-hidden ${darkMode ? 'bg-card' : 'bg-main'}`}>
                 {/* Table Header */}
-                <div className={`grid grid-cols-4 gap-0 border-b ${darkMode ? 'border-gray-600' : 'border-gray-300'}`}>
-                  <div className={`p-3 font-medium ${darkMode ? 'text-gray-200' : 'text-gray-600'} border-r ${darkMode ? 'border-gray-600' : 'border-gray-300'}`}>Sources</div>
-                  <div className={`p-3 font-medium ${darkMode ? 'text-gray-200' : 'text-gray-600'} border-r ${darkMode ? 'border-gray-600' : 'border-gray-300'}`}>Type</div>
-                  <div className={`p-3 font-medium ${darkMode ? 'text-gray-200' : 'text-gray-600'} border-r ${darkMode ? 'border-gray-600' : 'border-gray-300'}`}>Amount</div>
-                  <div className={`p-3 font-medium ${darkMode ? 'text-gray-200' : 'text-gray-600'}`}>Income Chart</div>
+                <div className={`grid grid-cols-4 gap-0 border-b ${darkMode ? 'border-midnight' : 'border-accent'}`}>
+                  <div className={`p-3 font-medium ${darkMode ? 'text-main' : 'text-muted'} border-r ${darkMode ? 'border-midnight' : 'border-accent'}`}>Sources</div>
+                  <div className={`p-3 font-medium ${darkMode ? 'text-main' : 'text-muted'} border-r ${darkMode ? 'border-midnight' : 'border-accent'}`}>Type</div>
+                  <div className={`p-3 font-medium ${darkMode ? 'text-main' : 'text-muted'} border-r ${darkMode ? 'border-midnight' : 'border-accent'}`}>Amount</div>
+                  <div className={`p-3 font-medium ${darkMode ? 'text-main' : 'text-muted'}`}>Income Chart</div>
                 </div>
 
                 {/* Table Content */}
                 <div className="grid grid-cols-4 gap-0 h-[400px]">
                   {/* Sources Column */}
-                  <div className={`p-3 border-r ${darkMode ? 'border-gray-600' : 'border-gray-300'}`}>
+                  <div className={`p-3 border-r ${darkMode ? 'border-midnight' : 'border-accent'}`}>
                     <div className="space-y-2">
-                      <div className="font-medium">Freelance</div>
-                      <div className="font-medium">Job</div>
-                    </div>
+  {transactions.filter(t => t.type === 'income').length > 0 ? (
+    transactions.filter(t => t.type === 'income').map(income => (
+      <div key={income.id} className="font-medium">{income.source}</div>
+    ))
+  ) : (
+    <div className="text-muted">No income sources</div>
+  )}
+</div>
                   </div>
 
                   {/* Type Column */}
-                  <div className={`p-3 border-r ${darkMode ? 'border-gray-600' : 'border-gray-300'}`}>
+                  <div className={`p-3 border-r ${darkMode ? 'border-midnight' : 'border-accent'}`}>
                     <div className="space-y-2">
-                      <div className="font-medium">Stipend</div>
-                      <div className="font-medium">Salary</div>
-                    </div>
+  {transactions.filter(t => t.type === 'income').length > 0 ? (
+    transactions.filter(t => t.type === 'income').map(income => (
+      <div key={income.id} className="font-medium">{income.category}</div>
+    ))
+  ) : (
+    <div className="text-muted">No income types</div>
+  )}
+</div>
                   </div>
 
                   {/* Amount Column */}
-                  <div className={`p-3 border-r ${darkMode ? 'border-gray-600' : 'border-gray-300'}`}>
+                  <div className={`p-3 border-r ${darkMode ? 'border-midnight' : 'border-accent'}`}>
                     <div className="space-y-2">
-                      <div className="font-medium">₹9,000</div>
-                      <div className="font-medium">₹2,000</div>
-                    </div>
+  {transactions.filter(t => t.type === 'income').length > 0 ? (
+    transactions.filter(t => t.type === 'income').map(income => (
+      <div key={income.id} className="font-medium">₹{income.amount?.toLocaleString?.() ?? income.amount}</div>
+    ))
+  ) : (
+    <div className="text-muted">No income amounts</div>
+  )}
+</div>
                   </div>
 
                   {/* Chart Column */}
                   <div className="p-3">
                     <div className="h-48 w-48">
                       <Pie
-                        data={{
-                          labels: ['Rent', 'Free', 'Job'],
-                          datasets: [{
-                            data: [30, 40, 30],
-                            backgroundColor: [
-                              '#10B981',
-                              '#3B82F6',
-                              '#8B5CF6'
-                            ]
-                          }]
-                        }}
+  data={{
+    labels: transactions.filter(t => t.type === 'income').map(i => i.source),
+    datasets: [
+      {
+        data: transactions.filter(t => t.type === 'income').map(i => i.amount),
+        backgroundColor: transactions.filter(t => t.type === 'income').map((_, idx) =>
+          `var(--color-accent${(idx % 6) + 1})`
+        )
+      }
+    ]
+  }}
                         options={{
                           responsive: true,
                           maintainAspectRatio: false,
@@ -450,7 +439,7 @@ const Finance = () => {
               <form onSubmit={addTransaction} className="mt-6">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div>
-                    <label className={`block mb-1 text-sm ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>Source</label>
+                    <label className={`block mb-1 text-sm ${darkMode ? 'text-main' : 'text-muted'}`}>Source</label>
                     <select
                       name="source"
                       value={newTransaction.source}
@@ -464,7 +453,7 @@ const Finance = () => {
                     </select>
                   </div>
                   <div>
-                    <label className={`block mb-1 text-sm ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>Type</label>
+                    <label className={`block mb-1 text-sm ${darkMode ? 'text-main' : 'text-muted'}`}>Type</label>
                     <select
                       name="category"
                       value={newTransaction.category}
@@ -493,7 +482,7 @@ const Finance = () => {
                 <div className="mt-4 flex justify-end">
                   <button
                     type="submit"
-                    className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg flex items-center gap-2"
+                    className="px-4 py-2 bg-green text-main rounded-lg flex items-center gap-2"
                   >
                     <Plus size={16} /> Add Income
                   </button>
@@ -510,75 +499,75 @@ const Finance = () => {
             </div>
             <div className="p-6">
               {/* Expense Table */}
-              <div className={`rounded-lg overflow-hidden ${darkMode ? 'bg-gray-700' : 'bg-gray-50'}`}>
+              <div className={`rounded-lg overflow-hidden ${darkMode ? 'bg-card' : 'bg-main'}`}>
                 {/* Table Header */}
-                <div className={`grid grid-cols-6 gap-0 border-b ${darkMode ? 'border-gray-600' : 'border-gray-300'}`}>
-                  <div className={`p-3 font-medium ${darkMode ? 'text-gray-200' : 'text-gray-600'} border-r ${darkMode ? 'border-gray-600' : 'border-gray-300'}`}>Rent</div>
-                  <div className={`p-3 font-medium ${darkMode ? 'text-gray-200' : 'text-gray-600'} border-r ${darkMode ? 'border-gray-600' : 'border-gray-300'}`}>Food</div>
-                  <div className={`p-3 font-medium ${darkMode ? 'text-gray-200' : 'text-gray-600'} border-r ${darkMode ? 'border-gray-600' : 'border-gray-300'}`}>Education</div>
-                  <div className={`p-3 font-medium ${darkMode ? 'text-gray-200' : 'text-gray-600'} border-r ${darkMode ? 'border-gray-600' : 'border-gray-300'}`}>Medical</div>
-                  <div className={`p-3 font-medium ${darkMode ? 'text-gray-200' : 'text-gray-600'} border-r ${darkMode ? 'border-gray-600' : 'border-gray-300'}`}>Investment</div>
-                  <div className={`p-3 font-medium ${darkMode ? 'text-gray-200' : 'text-gray-600'}`}>Extra Cash</div>
+                <div className={`grid grid-cols-6 gap-0 border-b ${darkMode ? 'border-midnight' : 'border-accent'}`}>
+                  <div className={`p-3 font-medium ${darkMode ? 'text-main' : 'text-muted'} border-r ${darkMode ? 'border-midnight' : 'border-accent'}`}>Rent</div>
+                  <div className={`p-3 font-medium ${darkMode ? 'text-main' : 'text-muted'} border-r ${darkMode ? 'border-midnight' : 'border-accent'}`}>Food</div>
+                  <div className={`p-3 font-medium ${darkMode ? 'text-main' : 'text-muted'} border-r ${darkMode ? 'border-midnight' : 'border-accent'}`}>Education</div>
+                  <div className={`p-3 font-medium ${darkMode ? 'text-main' : 'text-muted'} border-r ${darkMode ? 'border-midnight' : 'border-accent'}`}>Medical</div>
+                  <div className={`p-3 font-medium ${darkMode ? 'text-main' : 'text-muted'} border-r ${darkMode ? 'border-midnight' : 'border-accent'}`}>Investment</div>
+                  <div className={`p-3 font-medium ${darkMode ? 'text-main' : 'text-muted'}`}>Extra Cash</div>
                 </div>
 
                 {/* Table Content */}
                 <div className="grid grid-cols-6 gap-0 h-[400px] overflow-y-scroll">
                   {/* Rent Column */}
-                  <div className={`p-3 border-r ${darkMode ? 'border-gray-600' : 'border-gray-300'}`}>
+                  <div className={`p-3 border-r ${darkMode ? 'border-midnight' : 'border-accent'}`}>
                     {transactions
                       .filter(t => t.type === 'expense' && t.category === 'Rent')
                       .map(expense => (
-                        <div key={expense.id} className="mb-2 p-2 rounded bg-opacity-10 hover:bg-opacity-20 bg-gray-500">
+                        <div key={expense.id} className="mb-2 p-2 rounded bg-opacity-10 hover:bg-opacity-20 bg-main">
                           <div className="font-medium">₹{expense.amount.toLocaleString()}</div>
-                          <div className="text-sm text-gray-400">{expense.note}</div>
+                          <div className="text-sm text-muted">{expense.note}</div>
                         </div>
                       ))}
                   </div>
 
                   {/* Food Column */}
-                  <div className={`p-3 border-r ${darkMode ? 'border-gray-600' : 'border-gray-300'}`}>
+                  <div className={`p-3 border-r ${darkMode ? 'border-midnight' : 'border-accent'}`}>
                     {transactions
                       .filter(t => t.type === 'expense' && t.category === 'Food')
                       .map(expense => (
-                        <div key={expense.id} className="mb-2 p-2 rounded bg-opacity-10 hover:bg-opacity-20 bg-gray-500">
+                        <div key={expense.id} className="mb-2 p-2 rounded bg-opacity-10 hover:bg-opacity-20 bg-main">
                           <div className="font-medium">₹{expense.amount.toLocaleString()}</div>
-                          <div className="text-sm text-gray-400">{expense.note}</div>
+                          <div className="text-sm text-muted">{expense.note}</div>
                         </div>
                       ))}
                   </div>
 
                   {/* Education Column */}
-                  <div className={`p-3 border-r ${darkMode ? 'border-gray-600' : 'border-gray-300'}`}>
+                  <div className={`p-3 border-r ${darkMode ? 'border-midnight' : 'border-accent'}`}>
                     {transactions
                       .filter(t => t.type === 'expense' && t.category === 'Education')
                       .map(expense => (
-                        <div key={expense.id} className="mb-2 p-2 rounded bg-opacity-10 hover:bg-opacity-20 bg-gray-500">
+                        <div key={expense.id} className="mb-2 p-2 rounded bg-opacity-10 hover:bg-opacity-20 bg-main">
                           <div className="font-medium">₹{expense.amount.toLocaleString()}</div>
-                          <div className="text-sm text-gray-400">{expense.note}</div>
+                          <div className="text-sm text-muted">{expense.note}</div>
                         </div>
                       ))}
                   </div>
 
                   {/* Medical Column */}
-                  <div className={`p-3 border-r ${darkMode ? 'border-gray-600' : 'border-gray-300'}`}>
+                  <div className={`p-3 border-r ${darkMode ? 'border-midnight' : 'border-accent'}`}>
                     {transactions
                       .filter(t => t.type === 'expense' && t.category === 'Medical')
                       .map(expense => (
-                        <div key={expense.id} className="mb-2 p-2 rounded bg-opacity-10 hover:bg-opacity-20 bg-gray-500">
+                        <div key={expense.id} className="mb-2 p-2 rounded bg-opacity-10 hover:bg-opacity-20 bg-main">
                           <div className="font-medium">₹{expense.amount.toLocaleString()}</div>
-                          <div className="text-sm text-gray-400">{expense.note}</div>
+                          <div className="text-sm text-muted">{expense.note}</div>
                         </div>
                       ))}
                   </div>
 
                   {/* Investment Column */}
-                  <div className={`p-3 border-r ${darkMode ? 'border-gray-600' : 'border-gray-300'}`}>
+                  <div className={`p-3 border-r ${darkMode ? 'border-midnight' : 'border-accent'}`}>
                     {transactions
                       .filter(t => t.type === 'expense' && t.category === 'Investment')
                       .map(expense => (
-                        <div key={expense.id} className="mb-2 p-2 rounded bg-opacity-10 hover:bg-opacity-20 bg-gray-500">
+                        <div key={expense.id} className="mb-2 p-2 rounded bg-opacity-10 hover:bg-opacity-20 bg-main">
                           <div className="font-medium">₹{expense.amount.toLocaleString()}</div>
-                          <div className="text-sm text-gray-400">{expense.note}</div>
+                          <div className="text-sm text-muted">{expense.note}</div>
                         </div>
                       ))}
                   </div>
@@ -588,9 +577,9 @@ const Finance = () => {
                     {transactions
                       .filter(t => t.type === 'expense' && t.category === 'Other')
                       .map(expense => (
-                        <div key={expense.id} className="mb-2 p-2 rounded bg-opacity-10 hover:bg-opacity-20 bg-gray-500">
+                        <div key={expense.id} className="mb-2 p-2 rounded bg-opacity-10 hover:bg-opacity-20 bg-main">
                           <div className="font-medium">₹{expense.amount.toLocaleString()}</div>
-                          <div className="text-sm text-gray-400">{expense.note}</div>
+                          <div className="text-sm text-muted">{expense.note}</div>
                         </div>
                       ))}
                   </div>
@@ -601,7 +590,7 @@ const Finance = () => {
               <form onSubmit={addTransaction} className="mt-6">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div>
-                    <label className={`block mb-1 text-sm ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>Category</label>
+                    <label className={`block mb-1 text-sm ${darkMode ? 'text-main' : 'text-muted'}`}>Category</label>
                     <select
                       name="category"
                       value={newTransaction.category}
@@ -631,7 +620,7 @@ const Finance = () => {
                     />
                   </div>
                   <div>
-                    <label className={`block mb-1 text-sm ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>Note</label>
+                    <label className={`block mb-1 text-sm ${darkMode ? 'text-main' : 'text-muted'}`}>Note</label>
                     <input
                       type="text"
                       name="note"
@@ -646,7 +635,7 @@ const Finance = () => {
                 <div className="mt-4 flex justify-end">
                   <button
                     type="submit"
-                    className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg flex items-center gap-2"
+                    className="px-4 py-2 bg-pink text-main rounded-lg flex items-center gap-2"
                   >
                     <Plus size={16} /> Add Expense
                   </button>
@@ -671,16 +660,16 @@ const Finance = () => {
                 {investments.map(investment => (
                   <div
                     key={investment.id}
-                    className={`p-4 rounded-lg ${darkMode ? 'bg-gray-700' : 'bg-gray-50'}`}
+                    className={`p-4 rounded-lg ${darkMode ? 'bg-card' : 'bg-main'}`}
                   >
                     <div className="flex justify-between items-start">
                       <div>
                         <p className="font-medium">{investment.type}</p>
-                        <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                        <p className={`text-sm ${darkMode ? 'text-main' : 'text-muted'}`}>
                           Invested: ₹{investment.amount.toLocaleString()}
                         </p>
                       </div>
-                      <span className={`text-sm font-medium ${investment.currentValue >= investment.amount ? 'text-green-500' : 'text-red-500'
+                      <span className={`text-sm font-medium ${investment.currentValue >= investment.amount ? 'text-green' : 'text-pink'
                         }`}>
                         {investment.currentValue >= investment.amount ? '+' : ''}
                         ₹{(investment.currentValue - investment.amount).toLocaleString()}
@@ -688,12 +677,12 @@ const Finance = () => {
                     </div>
                     <div className="mt-4">
                       <div className="flex justify-between text-sm mb-1">
-                        <span className={`${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>Current Value</span>
+                        <span className={`${darkMode ? 'text-muted' : 'text-main'}`}>Current Value</span>
                         <span>₹{investment.currentValue.toLocaleString()}</span>
                       </div>
-                      <div className="w-full h-2 rounded-full overflow-hidden bg-gray-300">
+                      <div className="w-full h-2 rounded-full overflow-hidden bg-midnight">
                         <div
-                          className="h-full rounded-full bg-blue-500"
+                          className="h-full rounded-full bg-skyblue"
                           style={{
                             width: `${(investment.currentValue / (investment.amount * 1.5)) * 100}%`,
                             maxWidth: '100%'
@@ -705,7 +694,7 @@ const Finance = () => {
                 ))}
               </div>
 
-              <div className={`p-4 rounded-lg ${darkMode ? 'bg-gray-700' : 'bg-gray-50'}`}>
+              <div className={`p-4 rounded-lg ${darkMode ? 'bg-card' : 'bg-main'}`}>
                 <h3 className="font-medium mb-2">Investment Performance</h3>
                 <div className="h-64">
                   <Line
@@ -765,12 +754,12 @@ const Finance = () => {
             {moneyMakingIdeas.map(idea => (
               <div
                 key={idea.id}
-                className={`p-4 rounded-lg ${darkMode ? 'bg-gray-700' : 'bg-gray-50'}`}
+                className={`p-4 rounded-lg ${darkMode ? 'bg-card' : 'bg-main'}`}
               >
                 <div className="flex justify-between items-center">
                   <div>
                     <p className="font-medium">{idea.idea}</p>
-                    <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                    <p className={`text-sm ${darkMode ? 'text-muted' : 'text-gray-500'}`}>
                       Category: {idea.category}
                     </p>
                   </div>

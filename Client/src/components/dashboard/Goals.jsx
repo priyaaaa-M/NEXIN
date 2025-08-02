@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import '../../styles/theme.css';
 import { Play, Pause, SkipForward, Volume2, Plus, Check, Heart, Calendar, Clock, Music, BookOpen, List, Target, Edit, Trash2, Search, RefreshCw } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -434,16 +435,16 @@ const Goals = () => {
       year: 'numeric'
     });
 
-    setManifestations([
-      ...manifestations,
-      {
+    setManifestations(prev => {
+      const updated = [...prev, {
         id: Date.now(),
         content: '',
         date: formattedDate,
         color: `hsl(${Math.random() * 360}, 85%, 75%)`
-      }
-    ]);
-    setCurrentPage(manifestations.length);
+      }];
+      setCurrentPage(updated.length - 1);
+      return updated;
+    });
   };
 
   return (
@@ -455,51 +456,53 @@ const Goals = () => {
 
       {/* Greeting Section */}
       <div className="bg-gradient-to-r from-electric-500 to-electric-700 rounded-xl p-6 shadow-md mb-6">
-        <h1 className="text-3xl font-bold text-white">
-          {userName} - {greeting}
+        <h1 className="text-3xl font-bold">
+          <span className="text-pink">{userName}</span> - {greeting}
         </h1>
-        <p className="text-electric-100">
+        <p className="text-muted">
           {currentTime.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
         </p>
       </div>
+
+
 
       {/* Timer Section */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
         <div className="bg-gradient-to-br from-skyblue-500 to-skyblue-700 rounded-xl p-6 shadow-md">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-semibold text-white flex items-center gap-2">
-              <Clock className="text-skyblue-200" /> Study Timer
+            <h2 className="text-xl font-semibold text-skyblue flex items-center gap-2">
+              <Clock className="text-skyblue" /> Study Timer
             </h2>
             <div className="flex items-center gap-2">
               <button
                 onClick={toggleTimer}
-                className="p-2 bg-white text-skyblue-600 rounded-full hover:bg-skyblue-100 transition-colors"
+                className="p-2 bg-main text-accent rounded-full hover:bg-accent-light transition-colors"
               >
                 {isRunning ? <Pause size={20} /> : <Play size={20} />}
               </button>
               <button
                 onClick={resetTimer}
-                className="p-2 bg-skyblue-800 text-white rounded-full hover:bg-skyblue-700 transition-colors"
+                className="p-2 bg-accent-dark text-main rounded-full hover:bg-accent transition-colors"
               >
                 <SkipForward size={20} />
               </button>
             </div>
           </div>
           <div className="text-center mb-6">
-            <span className="text-5xl font-bold text-white">
+            <span className="text-5xl font-bold text-skyblue">
               {formatTime(timer)}
             </span>
           </div>
           <div className="grid grid-cols-2 gap-4">
-            <div className="bg-skyblue-400/30 rounded-lg p-4 backdrop-blur-sm">
-              <h3 className="text-sm text-skyblue-100 mb-1">Today</h3>
-              <p className="text-xl font-semibold text-white">
+            <div className="bg-accent-light/30 rounded-lg p-4 backdrop-blur-sm">
+              <h3 className="text-sm text-skyblue mb-1">Today</h3>
+              <p className="text-xl font-semibold text-skyblue">
                 {Math.floor(todayStudyTime / 60)}h {todayStudyTime % 60}m
               </p>
             </div>
-            <div className="bg-skyblue-400/30 rounded-lg p-4 backdrop-blur-sm">
-              <h3 className="text-sm text-skyblue-100 mb-1">Year Total</h3>
-              <p className="text-xl font-semibold text-white">
+            <div className="bg-accent-light/30 rounded-lg p-4 backdrop-blur-sm">
+              <h3 className="text-sm text-skyblue mb-1">Year Total</h3>
+              <p className="text-xl font-semibold text-skyblue">
                 {Math.floor(yearlyStudyTime / 60)}h {yearlyStudyTime % 60}m
               </p>
             </div>
@@ -507,9 +510,9 @@ const Goals = () => {
         </div>
 
         {/* Music Player Section */}
-        <div className="bg-gradient-to-br from-electric-500 to-electric-700 rounded-xl p-6 shadow-md">
-          <h2 className="text-xl font-semibold text-white flex items-center gap-2 mb-4">
-            <Music className="text-electric-200" /> Study Music
+        <div className="bg-card rounded-xl p-6 shadow-md">
+          <h2 className="text-xl font-semibold text-main flex items-center gap-2 mb-4">
+            <Music className="text-accent-light" /> Study Music
           </h2>
           <div className="relative mb-4">
             <input
@@ -517,9 +520,9 @@ const Goals = () => {
               placeholder="Search music..."
               value={musicSearch}
               onChange={(e) => setMusicSearch(e.target.value)}
-              className="w-full p-3 pl-10 rounded-lg bg-electric-600/50 border border-electric-400 text-white placeholder-electric-200 focus:outline-none focus:ring-2 focus:ring-electric-300"
+              className="w-full p-3 pl-10 rounded-lg bg-main border border-accent text-main placeholder-electric-200 focus:outline-none focus:ring-2 focus:ring-accent"
             />
-            <Search className="absolute left-3 top-3.5 text-electric-200" size={18} />
+            <Search className="absolute left-3 top-3.5 text-accent-light" size={18} />
           </div>
           <div className="space-y-2 mb-4 max-h-40 overflow-y-auto custom-scrollbar">
             {searchResults.map(track => (
@@ -527,8 +530,8 @@ const Goals = () => {
                 key={track.name}
                 onClick={() => playSong(track)}
                 className={`p-3 rounded-lg cursor-pointer flex justify-between items-center transition-colors ${currentSong?.path === track.path
-                  ? 'bg-electric-400 text-white'
-                  : 'bg-electric-600/30 text-electric-100 hover:bg-electric-500/50'
+                  ? 'bg-accent text-main'
+                  : 'bg-main text-muted hover:bg-accent-light'
                   }`}
               >
                 <div>
@@ -542,17 +545,17 @@ const Goals = () => {
             <div className="mt-4">
               <div className="flex items-center justify-between mb-2">
                 <div>
-                  <p className="font-medium text-white">{currentSong.name}</p>
+                  <p className="font-medium text-main">{currentSong.name}</p>
                 </div>
                 <button
                   onClick={togglePlayPause}
-                  className="p-2 bg-white text-electric-600 rounded-full hover:bg-electric-100 transition-colors"
+                  className="p-2 bg-main text-accent rounded-full hover:bg-accent-light transition-colors"
                 >
                   {isPlaying ? <Pause size={20} /> : <Play size={20} />}
                 </button>
               </div>
               <div className="flex items-center gap-2">
-                <Volume2 size={18} className="text-electric-200" />
+                <Volume2 size={18} className="text-accent-light" />
                 <input
                   type="range"
                   min="0"
@@ -568,7 +571,7 @@ const Goals = () => {
       </div>
 
       {/* Quotes Section */}
-      <div className="bg-gradient-to-br from-sunny-400 to-sunny-600 rounded-xl p-6 shadow-lg h-[90px] flex flex-col items-center justify-center relative overflow-hidden mb-6">
+      <div className="bg-card-light rounded-xl p-6 shadow-lg h-[90px] flex flex-col items-center justify-center relative overflow-hidden mb-6">
         <motion.div
           key={currentQuote}
           initial={{ opacity: 0, y: 20 }}
@@ -577,7 +580,7 @@ const Goals = () => {
           transition={{ duration: 0.5 }}
           className="text-center px-8 relative z-10"
         >
-          <p className="text-xl font-dancing-script leading-relaxed text-sunny-900">
+          <p className="text-xl font-dancing-script leading-relaxed text-main">
             "{currentQuote}"
           </p>
         </motion.div>
@@ -587,7 +590,7 @@ const Goals = () => {
             const randomIndex = Math.floor(Math.random() * quotes.length);
             setCurrentQuote(quotes[randomIndex]);
           }}
-          className="absolute bottom-4 right-4 p-2 text-sunny-800 hover:text-sunny-900 transition-colors"
+          className="absolute bottom-4 right-4 p-2 text-accent hover:text-main transition-colors"
         >
           <RefreshCw size={20} />
         </button>
@@ -600,7 +603,7 @@ const Goals = () => {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="fixed top-4 right-4 bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-6 py-3 rounded-lg shadow-lg z-50 flex items-center gap-2 text-lg"
+            className="fixed top-4 right-4 bg-gradient-to-r from-indigo-500 to-purple-600 text-main px-6 py-3 rounded-lg shadow-lg z-50 flex items-center gap-2 text-lg"
           >
             {rewardMessage}
           </motion.div>
@@ -612,7 +615,7 @@ const Goals = () => {
         {/* To-Do List */}
         <div className="bg-midnight-400 rounded-xl p-6 shadow-lg h-[450px] flex flex-col">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-semibold text-white flex items-center gap-2">
+            <h2 className="text-xl font-semibold text-main flex items-center gap-2">
               <List className="text-skyblue-300" /> To-Do List
             </h2>
           </div>
@@ -622,12 +625,12 @@ const Goals = () => {
               placeholder="Add a task..."
               value={newTodo}
               onChange={(e) => setNewTodo(e.target.value)}
-              className="flex-1 p-2 border border-midnight-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-electric-500 bg-midnight-500 text-white placeholder-midnight-200"
+              className="flex-1 p-2 border border-midnight-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-electric-500 bg-midnight-500 text-main placeholder-midnight-200"
               onKeyPress={(e) => e.key === 'Enter' && addTodo()}
             />
             <button
               onClick={addTodo}
-              className="p-2 bg-electric-600 text-white rounded-lg hover:bg-electric-700 transition-colors"
+              className="p-2 bg-electric-600 text-main rounded-lg hover:bg-electric-700 transition-colors"
             >
               <Plus size={20} />
             </button>
@@ -637,7 +640,7 @@ const Goals = () => {
               <div
                 key={todo.id}
                 className={`p-3 rounded-lg border ${todo.completed
-                  ? 'bg-electric-500/20 border-electric-400'
+                  ? 'bg-electric-500/20 border-accent'
                   : 'bg-midnight-500 border-midnight-300'
                   }`}
               >
@@ -646,7 +649,7 @@ const Goals = () => {
                     <button
                       onClick={() => toggleTodo(todo.id)}
                       className={`w-6 h-6 rounded-full border-2 flex-shrink-0 flex items-center justify-center ${todo.completed
-                        ? 'bg-electric-500 border-electric-500 text-white'
+                        ? 'bg-electric-500 border-electric-500 text-main'
                         : 'border-midnight-200'
                         }`}
                     >
@@ -659,13 +662,13 @@ const Goals = () => {
                         onChange={(e) => setTodoEditText(e.target.value)}
                         onBlur={() => saveEdit(todo.id)}
                         onKeyPress={(e) => e.key === 'Enter' && saveEdit(todo.id)}
-                        className="flex-1 p-1 border rounded focus:outline-none focus:ring-2 focus:ring-electric-500 bg-midnight-600 text-white"
+                        className="flex-1 p-1 border rounded focus:outline-none focus:ring-2 focus:ring-electric-500 bg-midnight-600 text-main"
                         autoFocus
                       />
                     ) : (
                       <p className={`flex-1 truncate ${todo.completed
                         ? 'text-midnight-200 line-through'
-                        : 'text-white'
+                        : 'text-main'
                         }`}>
                         {todo.text}
                       </p>
@@ -694,7 +697,7 @@ const Goals = () => {
         {/* Notes Section */}
         <div className="bg-midnight-400 rounded-xl p-6 shadow-lg h-[450px] flex flex-col">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-semibold text-white flex items-center gap-2">
+            <h2 className="text-xl font-semibold text-main flex items-center gap-2">
               <BookOpen className="text-skyblue-400" /> Notes
             </h2>
             <button
@@ -733,7 +736,7 @@ const Goals = () => {
                           setShowCalendar(false);
                         }}
                         className={`p-2 text-sm rounded-lg ${selectedDate === new Date(new Date().setDate(day)).toISOString().split('T')[0]
-                          ? 'bg-electric-500 text-white'
+                          ? 'bg-electric-500 text-main'
                           : 'hover:bg-midnight-600 text-midnight-100'
                           }`}
                       >
@@ -771,7 +774,7 @@ const Goals = () => {
               ></div>
               <textarea
                 ref={textAreaRef}
-                className="relative w-full h-full bg-transparent text-midnight-100 p-2 outline-none resize-none font-kalam font-light custom-scrollbar"
+                className="relative w-full h-full bg-transparent text-white p-2 outline-none resize-none font-kalam font-light custom-scrollbar"
                 style={{
                   lineHeight: "32px",
                   paddingTop: "8px",
@@ -791,7 +794,7 @@ const Goals = () => {
         {/* Monthly Goals */}
         <div className="bg-midnight-400 rounded-xl p-6 shadow-lg h-[400px] flex flex-col">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-semibold text-white flex items-center gap-2">
+            <h2 className="text-xl font-semibold text-main flex items-center gap-2">
               <Target className="text-skyblue-400" /> Monthly Goals
             </h2>
           </div>
@@ -801,12 +804,12 @@ const Goals = () => {
               placeholder="Add a monthly goal..."
               value={newMonthlyGoal}
               onChange={(e) => setNewMonthlyGoal(e.target.value)}
-              className="flex-1 p-2 border border-midnight-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-electric-500 bg-midnight-500 text-white placeholder-midnight-200"
+              className="flex-1 p-2 border border-midnight-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-electric-500 bg-midnight-500 text-main placeholder-midnight-200"
               onKeyPress={(e) => e.key === 'Enter' && addMonthlyGoal()}
             />
             <button
               onClick={addMonthlyGoal}
-              className="p-2 bg-electric-600 text-white rounded-lg hover:bg-electric-700"
+              className="p-2 bg-electric-600 text-main rounded-lg hover:bg-electric-700"
             >
               <Plus size={20} />
             </button>
@@ -816,7 +819,7 @@ const Goals = () => {
               <div
                 key={goal.id}
                 className={`p-3 rounded-lg border ${goal.completed
-                  ? 'bg-electric-500/20 border-electric-400'
+                  ? 'bg-electric-500/20 border-accent'
                   : 'bg-midnight-500 border-midnight-300'
                   }`}
               >
@@ -825,7 +828,7 @@ const Goals = () => {
                     <button
                       onClick={() => toggleMonthlyGoal(goal.id)}
                       className={`w-6 h-6 rounded-full border-2 flex-shrink-0 flex items-center justify-center ${goal.completed
-                        ? 'bg-electric-500 border-electric-500 text-white'
+                        ? 'bg-electric-500 border-electric-500 text-main'
                         : 'border-midnight-200'
                         }`}
                     >
@@ -838,13 +841,13 @@ const Goals = () => {
                         onChange={(e) => setMonthlyGoalEditText(e.target.value)}
                         onBlur={() => saveMonthlyGoalEdit(goal.id)}
                         onKeyPress={(e) => e.key === 'Enter' && saveMonthlyGoalEdit(goal.id)}
-                        className="flex-1 p-1 border rounded focus:outline-none focus:ring-2 focus:ring-electric-500 bg-midnight-600 text-white"
+                        className="flex-1 p-1 border rounded focus:outline-none focus:ring-2 focus:ring-electric-500 bg-midnight-600 text-main"
                         autoFocus
                       />
                     ) : (
                       <p className={`flex-1 truncate ${goal.completed
                         ? 'text-midnight-200 line-through'
-                        : 'text-white'
+                        : 'text-main'
                         }`}>
                         {goal.text}
                       </p>
@@ -871,10 +874,10 @@ const Goals = () => {
         </div>
 
         {/* Manifestation Section */}
-        <div className="bg-gradient-to-br from-sunny-400 to-sunny-600 rounded-xl p-6 shadow-lg h-[400px] flex flex-col">
+        <div className="bg-card rounded-xl p-6 shadow-lg h-[400px] flex flex-col">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-semibold text-sunny-900 flex items-center gap-2">
-              <Target className="text-sunny-800" /> Daily Affirmations
+            <h2 className="text-xl font-semibold text-main flex items-center gap-2">
+              <Target className="text-accent" /> Daily Affirmations
             </h2>
             <button
               onClick={addManifestation}
@@ -895,15 +898,16 @@ const Goals = () => {
                   opacity: index === currentPage ? 1 : 0,
                 }}
                 transition={{ duration: 0.5 }}
+                className="h-full rounded-lg flex flex-col"
                 style={{
                   position: index === currentPage ? 'relative' : 'absolute',
                   width: '100%',
                   height: '100%',
-                  top: 0
+                  top: 0,
+                  background: 'linear-gradient(135deg, var(--color-pink), var(--color-skyblue), var(--color-green))'
                 }}
-                className="bg-sunny-100/80 rounded-lg h-full flex flex-col"
               >
-                <div className="text-xs text-sunny-800/70 mb-2 font-mono">
+                <div className="text-xs text-accent/70 mb-2 font-mono">
                   {manifestation.date}
                 </div>
                 <textarea
@@ -914,7 +918,7 @@ const Goals = () => {
                     setManifestations(newManifestations);
                   }}
                   placeholder="Write your manifestation here..."
-                  className="w-full flex-1 bg-transparent border-none focus:outline-none resize-none custom-scrollbar"
+                  className="w-full flex-1 bg-transparent border-none focus:outline-none resize-none custom-scrollbar text-white placeholder-white"
                   style={{
                     fontFamily: "'Dancing Script', cursive",
                     fontSize: '1.25rem',
@@ -922,14 +926,14 @@ const Goals = () => {
 
                     background: `linear-gradient(transparent, transparent 31px, #D1D5DB 31px, #D1D5DB 32px, transparent 32px)`,
                     backgroundSize: '100% 32px',
-                    color: manifestation.color
+                    color: '#fff'
                   }}
                 />
               </motion.div>
             ))}
 
             {manifestations.length === 0 && (
-              <div className="text-center text-sunny-800/50 h-full flex flex-col items-center justify-center">
+              <div className="text-center text-accent/50 h-full flex flex-col items-center justify-center">
                 <Target size={40} className="mb-4 opacity-70" />
                 <p>Click + to start your manifestation journey</p>
               </div>
@@ -940,14 +944,14 @@ const Goals = () => {
               <div className="absolute bottom-0 left-0 right-0 flex justify-center gap-2 pb-2 bg-gradient-to-t from-sunny-100/80 to-transparent pt-4">
                 <button
                   onClick={() => setCurrentPage(Math.max(0, currentPage - 1))}
-                  className="p-2 text-sunny-800/70 hover:text-sunny-900 disabled:opacity-50"
+                  className="p-2 text-accent/70 hover:text-main disabled:opacity-50"
                   disabled={currentPage === 0}
                 >
                   ← Previous
                 </button>
                 <button
                   onClick={() => setCurrentPage(Math.min(manifestations.length - 1, currentPage + 1))}
-                  className="p-2 text-sunny-800/70 hover:text-sunny-900 disabled:opacity-50"
+                  className="p-2 text-accent/70 hover:text-main disabled:opacity-50"
                   disabled={currentPage === manifestations.length - 1}
                 >
                   Next →
