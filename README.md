@@ -1,99 +1,36 @@
-
-# NEXIN — Personal Development System
-
-## Overview
-NEXIN is an integrated self-development dashboard designed to optimize productivity, goal tracking, and personal growth. The system combines task management with psychological motivation techniques to create a balanced approach to achievement.
-
-## Core Features
-
-### Goal Management
-- Short-term and long-term goal tracking
-- Progress visualization (daily/weekly/yearly)
-- Calendar-based goal organization
-
-### Productivity Tools
-- Time-block scheduling (reminder)
-- Searchable goal database (tags/keywords)
-- Focus music integration
-
-### Motivation System
-- Personalized greeting messages
-- Achievement rewards system
-- Manifestation tracking 
-
-
-
-#### Frontend
-- React with Tailwind CSS
-- Framer Motion for animations
-- Custom UI components
-
-#### Backend
-- Node.js/Express API server
-- Python integration for:
-  - Automated motivational messaging
-  - Natural language processing (future)
-  - Data analysis (future)
-
-#### Future Architecture
-- Firebase/Supabase for authentication
-- Cloud synchronization
-
-
-
-
-1. **Message Personalization** (Future):
-```python
-def personalize_message(base_message, user_data):
-    # NLP-based personalization logic
-    pass
-```
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
 
-### Development Setup
-1. Clone repository:
-```bash
-git clone https://github.com/priyaaaa-M/NEXIN.git
-cd NEXIN
-```
+First, run the development server:
 
-2. Start frontend:
 ```bash
-cd client
-npm install
 npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
 ```
 
-3. Start backend:
-```bash
-cd ../server
-npm install
-npm start
-```
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## Contribution Guidelines
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-We welcome contributions in these areas:
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-1. **Core Features**:
-   - Enhanced reward systems
-   - Improved data visualization
+## Learn More
 
-2. **Technical Improvements**:
-   - Authentication flows
-   - Python integration expansion
-   - Performance optimization
+To learn more about Next.js, take a look at the following resources:
 
-3. **Design**:
-   - UX refinements
-   - Accessibility improvements
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-**Process**:
-1. Fork the repository
-2. Create feature branch
-3. Submit PR with clear documentation
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-## Contact
+## Deploy on Vercel
 
-pro.priyanka.mandal@gmail.com
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
